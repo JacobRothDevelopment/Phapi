@@ -1,9 +1,7 @@
 <?php
-// From PhpApi
+require_once(__DIR__ . "/../PhpApi/CanFromArray.php");
 
-require_once(__DIR__ . "/../Classes/CanFromArray.php");
-
-class IdRequest extends CanFromArray
+class IdRequest extends PhpApi\CanFromArray
 {
     public string $id;
 }

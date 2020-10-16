@@ -2,8 +2,8 @@
 // From PhpApi
 
 // Script Variables //////////////////////////////////////
-if(!file_exists("./env.php")){
-	if(!file_exists("./../env.php")){
+if (!file_exists("./env.php")) {
+	if (!file_exists("./../env.php")) {
 		print "no env.php found. please place your env file in this directory or the parent directory";
 		return;
 	} else {
@@ -15,16 +15,16 @@ if(!file_exists("./env.php")){
 global $_dsn, $_dbUsername, $_dbPassword;
 
 $dsnValues = array("alive" => "barely");
-$dbParams = explode(";",$_dsn);
+$dbParams = explode(";", $_dsn);
 foreach ($dbParams as $dbParam) {
 	if (strlen($dbParam) === 0) {
 		continue;
 	}
-	$keyValuePair = explode("=",$dbParam);
-	if(isset($keyValuePair[0]) && isset($keyValuePair[1])) {
+	$keyValuePair = explode("=", $dbParam);
+	if (isset($keyValuePair[0]) && isset($keyValuePair[1])) {
 		$dsnValues[$keyValuePair[0]] = $keyValuePair[1];
 	} else {
-		print("ERROR :: cannot assign dsnValue for values" . print_r($dbParam,true) . "\n");
+		print("ERROR :: cannot assign dsnValue for values" . print_r($dbParam, true) . "\n");
 	}
 }
 
@@ -57,9 +57,9 @@ $PhpDataType = array(
 	"double" => "float",
 	"float" => "float",
 	"json" => "object",
-	"datetime" => "DateTime",// TODO: Change: handle sql dates as strings 
-	"date" => "DateTime",// TODO: Change: handle sql dates as strings 
-	"timestamp" => "DateTime"// TODO: Change: handle sql dates as strings 
+	"datetime" => "DateTime", // TODO: Change: handle sql dates as strings 
+	"date" => "DateTime", // TODO: Change: handle sql dates as strings 
+	"timestamp" => "DateTime" // TODO: Change: handle sql dates as strings 
 );
 
 // used to designate a paramter as Nullable or not
@@ -94,22 +94,22 @@ $columnArray = $stmtColumns->fetchAll();
 // Create Db Classes
 // extends FromArray abstract class
 // this assumes you've arleady downloaded that file
-foreach($tableArray as $tableData){
+foreach ($tableArray as $tableData) {
 	$table = $tableData['TABLE_NAME'];
-	if(!file_exists("./DbClasses/")){
+	if (!file_exists("./DbClasses/")) {
 		mkdir("./DbClasses/");
 	}
-	$DbClassFile = fopen("./DbClasses/" . $table . ".php","w");
+	$DbClassFile = fopen("./DbClasses/" . $table . ".php", "w");
 	$classText = "<?php\n$autoCreateMessage\n
-require_once(__DIR__ . '/../Classes/CanFromArray.php');
+require_once(__DIR__ . '/../PhpApi/CanFromArray.php');
 class " . $table . " extends CanFromArray 
 {\n";
-	foreach($columnArray as $column){
-		if($column['TABLE_NAME'] === $table){
-			$classText .= "\tpublic " 
-			. $Nullable[$column['IS_NULLABLE']] 
-			.  $PhpDataType[$column['DATA_TYPE']] 
-			. " $" . $column['COLUMN_NAME'] . ";\n";
+	foreach ($columnArray as $column) {
+		if ($column['TABLE_NAME'] === $table) {
+			$classText .= "\tpublic "
+				. $Nullable[$column['IS_NULLABLE']]
+				.  $PhpDataType[$column['DATA_TYPE']]
+				. " $" . $column['COLUMN_NAME'] . ";\n";
 		}
 	}
 	$classText .= "}\n";
@@ -118,13 +118,11 @@ class " . $table . " extends CanFromArray
 }
 
 // Create DbClasses.php
-$DbClassesFile = fopen("./DbClasses/DbClasses.php","w");
+$DbClassesFile = fopen("./DbClasses/DbClasses.php", "w");
 $dbclassesFileText = "<?php \n$autoCreateMessage\n\n";
-foreach($tableArray as $tableData){
+foreach ($tableArray as $tableData) {
 	$table = $tableData['TABLE_NAME'];
 	$dbclassesFileText .= "require_once(__DIR__ . '/" . $table . ".php');\n";
 }
 fwrite($DbClassesFile, $dbclassesFileText);
 fclose($DbClassesFile);
-
-

@@ -2,31 +2,31 @@
 // From PhpApi
 
 require_once(__DIR__ . "/DbClasses/DbClasses.php");
-require_once(__DIR__ . "/Classes/ApiException.php");
+require_once(__DIR__ . "/PhpApi/ApiException.php");
 require_once(__DIR__ . "/env.php");
 
 // for debugging only
-function DebugPrint($o) : void 
+function DebugPrint($o): void
 {
-    print("<pre>".print_r($o,true)."</pre>");
+    print("<pre>" . print_r($o, true) . "</pre>");
 }
 
 // print return data onto screen as JSON object
-function JsonPrint(object $o) : void 
+function JsonPrint(object $o): void
 {
     print(json_encode($o));
 }
 
 // parse http request to get controller, action, and data
-function GetApiRequest() : array 
+function GetApiRequest(): array
 {
     $inputData = null;
     $uri = parse_url($_SERVER["REQUEST_URI"]);
 
     $method = $_SERVER["REQUEST_METHOD"];
-    if($method === "GET") {
+    if ($method === "GET") {
         $output = array();
-        if(isset($uri['query'])) { 
+        if (isset($uri['query'])) {
             parse_str($uri['query'], $output);
         }
         $inputData = $output;
@@ -53,7 +53,7 @@ function GetApiRequest() : array
 // Calls the given Method for the given Class by name using the given Argument
 function Call(?string $className, ?string $methodName, ?array $args)
 {
-    $noEndpointEsception = new ApiException(404, "Specified endpoint does not exist");
+    $noEndpointEsception = new PhpApi\ApiException(404, "Specified endpoint does not exist");
     if ($className == null || $methodName == null) {
         throw $noEndpointEsception;
     }
@@ -71,13 +71,13 @@ function Call(?string $className, ?string $methodName, ?array $args)
     $reflectionClass = new ReflectionClass($ControllerClass);
     try {
         $params = $reflectionClass->getMethod($methodName)->getParameters();
-    } catch(ReflectionException $e) { // if method does not exist in controller
+    } catch (ReflectionException $e) { // if method does not exist in controller
         throw $noEndpointEsception;
     }
 
     if (count($params) > 0) { // if the controller method takes a param, create that object
         if ($args === null) {
-            throw new ApiException(400, "Invalid arguments");
+            throw new PhpApi\ApiException(400, "Invalid arguments");
         }
         $param = $params[0]; // get 1st parameter
         $argClass = $param->getClass()->getName(); // get parameter class name
@@ -103,7 +103,7 @@ $return = "If you're seeing this, something went wrong";
 try {
     // call the Method in the Controller class
     $return = Call($UrlController, $UrlAction, $apiReq["data"]);
-} catch(ApiException $e) {
+} catch (PhpApi\ApiException $e) {
     // if an api exception is ever thrown
     //      return error message and set the proper http error code
     http_response_code($e->getCode());

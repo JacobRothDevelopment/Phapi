@@ -1,10 +1,8 @@
 <?php
-// From PhpApi
-
-require_once(__DIR__ . "/../Classes/Controller.php");
+require_once(__DIR__ . "/../PhpApi/Controller.php");
 require_once(__DIR__ . "/../Requests/IdRequest.php");
 
-class TestController extends Controller
+class TestController extends PhpApi\Controller
 {
     // GET /Default/Values
     public function Values()
@@ -21,5 +19,14 @@ class TestController extends Controller
     {
         $this->HttpGet();
         return $req;
+    }
+
+    // GET /Default
+    public function GET()
+    {
+        $this->HttpGet();
+        return [
+            "success" => true
+        ];
     }
 }
