@@ -78,6 +78,7 @@ class Startup
     /** @param mixed $o */
     private function PrintOut($o): void
     {
+        header("Content-Type: application/json");
         print(json_encode($o));
     }
 
