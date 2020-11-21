@@ -83,7 +83,8 @@ class Startup
     }
 
     /** @return mixed */
-    private function Cast(string $class, array $values) {
+    private function Cast(string $class, array $values) 
+    {
         $obj = new $class;
         foreach ($values as $key => $value) {
             if (property_exists($class, $key)) {
