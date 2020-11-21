@@ -9,7 +9,7 @@ $Routes->Add(new PhpApi\Route(
 ));
 $Routes->Add(new PhpApi\Route(
     "Double Id Get",
-    "/api/v1/{controller}/{action}/{id}/{idtwo?}" 
+    "/api/v1/{controller}/{action}/{id}/{idtwo?}", null
     // ^ NOTE: id is a required input, idtwo is optional
 ));
 $Routes->Add(new PhpApi\Route(
