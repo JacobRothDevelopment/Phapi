@@ -47,6 +47,10 @@ $PhpDataType = array(
 	"char" => "string",
 	"blob" => "string",
 	"text" => "string",
+	"tinytext" => "string",
+	"smalltext" => "string",
+	"mediumtext" => "string",
+	"largetext" => "string",
 	"tinyint" => "bool",
 	"int" => "int",
 	"smallint" => "int",
@@ -57,9 +61,9 @@ $PhpDataType = array(
 	"double" => "float",
 	"float" => "float",
 	"json" => "object",
-	"datetime" => "DateTime", // TODO: Change: handle sql dates as strings 
-	"date" => "DateTime", // TODO: Change: handle sql dates as strings 
-	"timestamp" => "DateTime" // TODO: Change: handle sql dates as strings 
+	"datetime" => "string",
+	"date" => "string",
+	"timestamp" => "string"
 );
 
 // used to designate a paramter as Nullable or not

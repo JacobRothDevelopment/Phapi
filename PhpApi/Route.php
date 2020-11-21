@@ -15,26 +15,3 @@ class Route
         $this->HttpMethod = $HttpMethod;
     }
 }
-
-class Routes
-{
-    private arrayss $Routes; // array of type Route
-
-    public function __construct()
-    {
-        $this->Routes = array();
-    }
-
-    public function Add(Route $Route): void
-    {
-        array_push($this->Routes, $Route);
-    }
-
-    public function Find(string $Path): Route
-    {
-        foreach ($this->Routes as $route) {
-            /* @var Route $route */
-            $route;
-        }
-    }
-}

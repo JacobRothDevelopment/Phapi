@@ -1,26 +1,85 @@
 <?php
-require_once(__DIR__ . "/Route.php");
-require_once(__DIR__ . "/.php");
 
 namespace PhpApi;
 
+use ReflectionMethod;
+
 class Startup
 {
-    private Options $Options;
     private Routes $Routes;
 
-    public function __construct(?Options $Options = new Options(), Routes $Routes = array())
+    public function __construct(Routes $Routes = array())
     {
-        $this->Options = $Options;
         $this->Routes = $Routes;
     }
 
-    public function Call()
+    public function Run(): void
     {
+        // TODO? configure for xml data as input?
+        $inputData = json_decode(file_get_contents("php://input"), TRUE);
+
+        $DoesNotExistMessage = "Endpoint Does Not Exist";
+        $callingInfo = $this->Routes->Find();
+
+        $controllerClass = $callingInfo->Controller . "Controller";
+
+        // TODO: allow for http method as action
+        $actionToUse = $callingInfo->Action;
+        if (!method_exists($controllerClass, $callingInfo->Action)) {
+            $actionToUse = $_SERVER['REQUEST_METHOD'];
+        }
+        try {
+            $reflectionMethod = new \ReflectionMethod($controllerClass, $callingInfo->Action);
+            $reflectionParams = $reflectionMethod->getParameters();
+
+            $parameters = [];
+            foreach ($reflectionParams as $reflectionParam) {
+                if (isset($callingInfo->Args[$reflectionParam->getName()])) {
+                    $value = $callingInfo->Args[$reflectionParam->getName()];
+                    array_push($parameters, $value);
+                } else {
+                    /** @var \ReflectionNamedType $reflectionType */
+                    $reflectionType = $reflectionParam->getType();
+                    $typeName = $reflectionType->getName();
+                    $nativeTypes = ["int", "string", "bool"];
+                    if (!in_array($typeName, $nativeTypes)) {
+                        $value = $inputData[$reflectionParam->getName()];
+                        array_push($parameters, $value);
+                    } else {
+                        $object = $this->Cast($typeName, $inputData);
+                        array_push($parameters, $object);
+                    }
+                }
+            }
+
+            $controllerObj = new $controllerClass;
+            $output = $controllerObj->$actionToUse(...$parameters);
+
+            $this->PrintOut($output);
+        } catch (\ReflectionException $e) {
+            throw new ApiException(404, $DoesNotExistMessage);
+        }
+    }
+
+    /** @param mixed $o */
+    private function PrintOut($o): void
+    {
+        print(json_encode($o));
+    }
+
+    /** @return mixed */
+    private function Cast(string $class, array $values) {
+        $obj = new $class;
+        foreach ($values as $key => $value) {
+            if (property_exists($class, $key)) {
+                $obj->$key = $value;
+            }
+        }
+        return $obj;
     }
 }
 
-class Options
+class Options // not currently being used
 {
     public string $ReturnType;
     public bool $AllowRest;

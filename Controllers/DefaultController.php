@@ -14,17 +14,37 @@ class TestController extends PhpApi\Controller
         ];
     }
 
-    // GET /Default/EchoId?id={id}
+    // POST /Default/EchoId {id}
     public function EchoId(IdRequest $req)
     {
-        $this->HttpGet();
+        $this->HttpPost();
         return $req;
     }
 
-    // GET /Default
-    public function GET()
+    // GET /Default/1
+    public function GET(int $id)
     {
         $this->HttpGet();
+        return [
+            "success" => true,
+            "id" => $id
+        ];
+    }
+
+    public function DoubleGet(int $id, int $idtwo)
+    {
+        $this->HttpGet();
+        return [
+            "id" => $id,
+            "idtwo" => $idtwo
+        ];
+    }
+
+
+    // POST /Default
+    public function POST()
+    {
+        $this->HttpPost();
         return [
             "success" => true
         ];
