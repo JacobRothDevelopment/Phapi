@@ -19,6 +19,16 @@ class Startup
 
     public function Run(): void
     {
+        try {
+            $this->Call();
+        } catch (ApiException $e) {
+            http_response_code($e->getCode());
+            $this->PrintOut($e->getMessage());
+        }
+    }
+
+    private function Call()
+    {
         // TODO? configure for xml data as input?
         $inputData = json_decode(file_get_contents("php://input"), TRUE);
 
