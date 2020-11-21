@@ -8,9 +8,13 @@ class Startup
 {
     private Routes $Routes;
 
-    public function __construct(Routes $Routes = array())
+    public function __construct(Routes $Routes = null)
     {
-        $this->Routes = $Routes;
+        if ($Routes === null) {
+            $this->Routes = new Routes();
+        } else {
+            $this->Routes = $Routes;
+        }
     }
 
     public function Run(): void

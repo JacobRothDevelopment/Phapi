@@ -9,7 +9,7 @@ class Routes
 
     public function __construct()
     {
-        $this->Routes = array();
+        $this->Routes = [];
         $this->CallingInfo = null;
     }
 
