@@ -2,7 +2,7 @@
 require_once(__DIR__ . "/../PhpApi/Controller.php");
 require_once(__DIR__ . "/../Requests/IdRequest.php");
 
-class TestController extends PhpApi\Controller
+class DefaultController extends PhpApi\Controller
 {
     // GET /Default/Values
     public function Values()
