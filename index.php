@@ -21,6 +21,10 @@ $Routes->Add(new PhpApi\Route(
     "Default",
     "/api/v1/{controller}/{action}"
 ));
+$Routes->Add(new PhpApi\Route(
+    "Default",
+    "PhpApi/api/v1/{controller}/{action}"
+));
 
 $Options = new PhpApi\Options("application/json",true);
 
