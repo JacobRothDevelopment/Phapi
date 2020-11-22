@@ -23,7 +23,7 @@ $Routes->Add(new PhpApi\Route(
 ));
 $Routes->Add(new PhpApi\Route(
     "Default",
-    "PhpApi/api/v1/{controller}/{action}"
+    "/PhpApi/api/v1/{controller}/{action}"
 ));
 
 $Options = new PhpApi\Options("application/json",true);
