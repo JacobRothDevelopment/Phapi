@@ -31,10 +31,10 @@ class Routes
         $callingInfo = null;
         while ($index < count($this->Routes)) {
             $route = $this->Routes[$index];
-            error_log(print_r([
-                "index" => $index,
-                "route" => $route
-            ], true));
+            // error_log(print_r([
+            //     "index" => $index,
+            //     "route" => $route
+            // ], true));
             $methodMatch = $route->HttpMethod != null ? $route->HttpMethod == $inputMethod : true;
             $routeFits = $this->TryFit($route, $inputElements, $callingInfo);
             if ($methodMatch && $routeFits) {
@@ -57,6 +57,10 @@ class Routes
         $callingInfo = new CallingInformation();
         $genericPath = $route->Path;
         $genericElements = explode("/",$genericPath);
+        \Err([
+            "inputElements" => $inputElements,
+            "genericElements" => $genericElements
+        ]);
         if (count($genericElements) < count($inputElements)) {
             // if there are more elements in the url request than the 
             return false;
