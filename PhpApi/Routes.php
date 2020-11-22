@@ -24,13 +24,17 @@ class Routes
         $inputPath = parse_url($_SERVER["REQUEST_URI"])['path'];
         $inputElements = explode("/", $inputPath);
         if ($inputElements === false) {
-            throw new ApiException(400, "Invalid Request");
+            throw new ApiException(400, "Invalid Url");
         }
 
         $index = 0;
         $callingInfo = null;
         while ($index < count($this->Routes)) {
             $route = $this->Routes[$index];
+            error_log(print_r([
+                "index" => $index,
+                "route" => $route
+            ], true));
             $methodMatch = $route->HttpMethod != null ? $route->HttpMethod == $inputMethod : true;
             $routeFits = $this->TryFit($route, $inputElements, $callingInfo);
             if ($methodMatch && $routeFits) {
