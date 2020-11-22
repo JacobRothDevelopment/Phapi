@@ -57,10 +57,6 @@ class Routes
         $callingInfo = new CallingInformation();
         $genericPath = $route->Path;
         $genericElements = explode("/",$genericPath);
-        // \Err([
-        //     "inputElements" => $inputElements,
-        //     "genericElements" => $genericElements
-        // ]);
         if (count($genericElements) < count($inputElements)) {
             // if there are more elements in the url request than the 
             return false;

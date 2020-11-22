@@ -35,9 +35,12 @@ class Startup
         $DoesNotExistMessage = "Endpoint Does Not Exist";
         $callingInfo = $this->Routes->Find();
 
+        Err($callingInfo);
+
         $controllerClass = $callingInfo->Controller . "Controller";
 
-        // TODO: allow for http method as action
+        // allows for http method as action
+        // only if action is not a class method
         $actionToUse = $callingInfo->Action;
         if (!method_exists($controllerClass, $callingInfo->Action)) {
             $actionToUse = $_SERVER['REQUEST_METHOD'];
