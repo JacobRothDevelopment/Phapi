@@ -73,12 +73,15 @@ class Routes
                 switch ($variable->VariableName) {
                     case "controller":
                         $callingInfo->Controller = $inputElement;
+                        Err(["controller" => $inputElement]);
                     break;
                     case "action":
                         $callingInfo->Action = $inputElement;
+                        Err(["action" => $inputElement]);
                     break;
                     default:
                         $callingInfo->Args[$variable->VariableName] = $inputElement;
+                        Err(["strict" => $inputElement]);
                     break;
                 }
             } else {
