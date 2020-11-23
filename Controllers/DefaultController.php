@@ -49,4 +49,10 @@ class DefaultController extends PhpApi\Controller
             "success" => true
         ];
     }
+
+    public function Server()
+    {
+        $this->HttpGet();
+        return $_SERVER;
+    }
 }
