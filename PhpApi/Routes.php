@@ -35,7 +35,7 @@ class Routes
             //     "index" => $index,
             //     "route" => $route
             // ], true));
-            $methodMatch = $route->HttpMethod != null ? $route->HttpMethod == $inputMethod : true;
+            $methodMatch = $route->HttpMethod !== null ? $route->HttpMethod === $inputMethod : true;
             $routeFits = $this->TryFit($route, $inputElements, $callingInfo);
             if ($methodMatch && $routeFits) {
                 // end search
@@ -61,11 +61,15 @@ class Routes
             // if there are more elements in the url request than the 
             return false;
         }
+        Err([
+            "generic els" => $genericElements,
+            "generic path" => $route->Path
+        ]);
 
         foreach ($genericElements as $key => $genericElement) {
             $inputElement = isset($inputElements[$key]) ? $inputElements[$key] : null;
 
-            Err(["generic El" => $genericElement]);
+            Err(["generic el" => $genericElement]);
             if (RouteVariable::TryParse($genericElement, $variable)) {
                 if (!$variable->Nullable && empty($inputElement)) {
                     // if element cannot be null. yet no value is given
