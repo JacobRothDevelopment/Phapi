@@ -74,7 +74,7 @@ class Routes
 
             Err(["generic el" => $genericElement]);
             if (RouteVariable::TryParse($genericElement, $variable)) {
-                Err("TRY PARSE SUCCESSFUL");
+                Err("--------------------TRY PARSE SUCCESSFUL--------------------");
                 if (!$variable->Nullable && empty($inputElement)) {
                     // if element cannot be null. yet no value is given
                     return false;
