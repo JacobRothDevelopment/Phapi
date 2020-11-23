@@ -58,7 +58,7 @@ class Startup
                     $reflectionType = $reflectionParam->getType();
                     $typeName = $reflectionType->getName();
                     $nativeTypes = ["int", "string", "bool"];
-                    if (!in_array($typeName, $nativeTypes)) {
+                    if (in_array($typeName, $nativeTypes)) {
                         $value = $inputData[$reflectionParam->getName()];
                         array_push($parameters, $value);
                     } else {
