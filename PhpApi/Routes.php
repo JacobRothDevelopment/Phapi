@@ -65,6 +65,7 @@ class Routes
         foreach ($genericElements as $key => $genericElement) {
             $inputElement = isset($inputElements[$key]) ? $inputElements[$key] : null;
 
+            Err(["generic El" => $genericElement]);
             if (RouteVariable::TryParse($genericElement, $variable)) {
                 if (!$variable->Nullable && empty($inputElement)) {
                     // if element cannot be null. yet no value is given
