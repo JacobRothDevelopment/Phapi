@@ -31,7 +31,7 @@ class DefaultController extends PhpApi\Controller
         ];
     }
 
-    public function DoubleGet(int $id, int $idtwo)
+    public function DoubleGet(int $id, ?int $idtwo)
     {
         $this->HttpGet();
         return [
