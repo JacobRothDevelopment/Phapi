@@ -1,5 +1,5 @@
 <?php
-foreach (glob("PhpApi" . '/*.php') as $file) { require_once($file); }
+foreach (glob('PhpApi/*.php') as $file) { Err( "require :: " . $file); require_once($file); }
 
 function ERR($o) { // TODO: REMOVE WHEN DONE TESTING
     error_log(print_r($o, true));
