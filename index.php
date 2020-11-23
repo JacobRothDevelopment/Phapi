@@ -15,7 +15,7 @@ $Routes->Add(new PhpApi\Route(
 ));
 $Routes->Add(new PhpApi\Route(
     "Get By Id",
-    "/PhpApi/api/v1/{controller}/{id}",
+    "/PhpApi/api/v2/{controller}/{id}",
     "GET"
 ));
 $Routes->Add(new PhpApi\Route(
