@@ -9,7 +9,7 @@ class RouteVariable
 
     public static function TryParse(string $element, ?RouteVariable &$out): bool
     {
-        Err($element);
+        Err(["TRYPARSE ELEMENT" => $element]);
         $length = strlen($element);
         if ((substr($element, 0, 1) === "{") && (substr($element, -1, 1) === "}")) {
             $variable = substr($element, 1, -1);
