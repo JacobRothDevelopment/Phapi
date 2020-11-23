@@ -45,7 +45,7 @@ class Startup
             $actionToUse = $_SERVER['REQUEST_METHOD'];
         }
         try {
-            $reflectionMethod = new \ReflectionMethod($controllerClass, $callingInfo->Action);
+            $reflectionMethod = new \ReflectionMethod($controllerClass, $actionToUse);
             $reflectionParams = $reflectionMethod->getParameters();
 
             $parameters = [];
