@@ -70,6 +70,7 @@ class Routes
                     // if element cannot be null. yet no value is given
                     return false;
                 }
+                Err($variable);
                 switch ($variable->VariableName) {
                     case "controller":
                         $callingInfo->Controller = $inputElement;
