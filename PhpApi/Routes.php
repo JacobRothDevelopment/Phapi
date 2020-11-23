@@ -63,6 +63,7 @@ class Routes
         }
         Err([
             "generic els" => $genericElements,
+            "input els" => $inputElements,
             "generic path" => $route->Path
         ]);
 

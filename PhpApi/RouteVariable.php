@@ -19,6 +19,9 @@ class RouteVariable
                 $routeVariable->VariableName = $variableName;
                 $routeVariable->Nullable = $canNull;
                 $out = $routeVariable;
+                Err([
+                    "variable name" => $variableName
+                ]);
                 return true;
             }
         }
