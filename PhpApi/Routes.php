@@ -33,10 +33,6 @@ class Routes
         $callingInfo = null;
         while ($index < count($this->Routes)) {
             $route = $this->Routes[$index];
-            // error_log(print_r([
-            //     "index" => $index,
-            //     "route" => $route
-            // ], true));
             $methodMatch = $route->HttpMethod !== null ? $route->HttpMethod === $inputMethod : true;
             $routeFits = $this->TryFit($route, $inputElements, $callingInfo);
             if ($methodMatch && $routeFits) {
@@ -63,35 +59,24 @@ class Routes
             // if there are more elements in the url request than the 
             return false;
         }
-        // Err([
-        //     "generic els" => $genericElements,
-        //     "input els" => $inputElements,
-        //     "generic path" => $route->Path
-        // ]);
 
         foreach ($genericElements as $key => $genericElement) {
             $inputElement = isset($inputElements[$key]) ? $inputElements[$key] : null;
 
-            // Err(["generic el" => $genericElement]);
             if (RouteVariable::TryParse($genericElement, $variable)) {
-                // Err("--------------------TRY PARSE SUCCESSFUL--------------------");
                 if (!$variable->Nullable && empty($inputElement)) {
                     // if element cannot be null. yet no value is given
                     return false;
                 }
-                // Err($variable);
                 switch ($variable->VariableName) {
                     case "controller":
                         $callingInfo->Controller = $inputElement;
-                        // Err(["controller" => $inputElement]);
                     break;
                     case "action":
                         $callingInfo->Action = $inputElement;
-                        // Err(["action" => $inputElement]);
                     break;
                     default:
                         $callingInfo->Args[$variable->VariableName] = $inputElement;
-                        // Err(["strict" => $inputElement]);
                     break;
                 }
             } else {
@@ -104,7 +89,6 @@ class Routes
             }
 
             // if end of both generic path and input path
-
             if (count($genericElements) === ($key + 1)) {
                 $callingInfoOut = $callingInfo;
                 return true;
