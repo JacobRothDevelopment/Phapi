@@ -41,6 +41,7 @@ class Startup
         // only if action is not a class method
         $actionToUse = $callingInfo->Action;
         if (!method_exists($controllerClass, $callingInfo->Action)) {
+            Err($_SERVER['REQUEST_METHOD']);
             $actionToUse = $_SERVER['REQUEST_METHOD'];
         }
         try {
