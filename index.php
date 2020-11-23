@@ -14,6 +14,11 @@ $Routes->Add(new PhpApi\Route(
     "PUT"
 ));
 $Routes->Add(new PhpApi\Route(
+    "Get By Id",
+    "/PhpApi/api/v1/{controller}/{id}",
+    "GET"
+));
+$Routes->Add(new PhpApi\Route(
     "Double Id Get",
     "/PhpApi/api/v1/{controller}/{action}/{id}/{idtwo?}"
     // ^ NOTE: id is a required input, idtwo is optional
@@ -21,6 +26,7 @@ $Routes->Add(new PhpApi\Route(
 $Routes->Add(new PhpApi\Route(
     "Default",
     "/PhpApi/api/v1/{controller}/{action?}"
+    // NOTE: this is how you'll call a method by http method
 ));
 
 $Options = new PhpApi\Options("application/json",true);
