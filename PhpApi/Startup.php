@@ -74,7 +74,7 @@ class Startup
 
             $this->PrintOut($output);
         } catch (\ReflectionException $e) {
-            throw new ApiException(404, $DoesNotExistMessage);
+            throw new ApiException(404, $DoesNotExistMessage . " :: " . $e->getMessage());
         }
     }
 
