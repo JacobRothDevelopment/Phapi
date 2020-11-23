@@ -2,8 +2,6 @@
 
 namespace PhpApi;
 
-use ReflectionMethod;
-
 class Startup
 {
     private Routes $Routes;
