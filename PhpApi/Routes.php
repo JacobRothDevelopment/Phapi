@@ -102,8 +102,13 @@ class Routes
                     return false;
                 }
             }
-            $callingInfoOut = $callingInfo;
-            return true;
+
+            // if end of both generic path and input path
+
+            if (count($genericElements) === ($key + 1)) {
+                $callingInfoOut = $callingInfo;
+                return true;
+            }
         }
 
         return false;
