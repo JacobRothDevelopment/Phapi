@@ -35,7 +35,7 @@ class Startup
         $DoesNotExistMessage = "Endpoint Does Not Exist";
         $callingInfo = $this->Routes->Find();
 
-        Err($callingInfo);
+        // Err($callingInfo);
 
         $controllerClass = $callingInfo->Controller . "Controller";
 

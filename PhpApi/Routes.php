@@ -63,35 +63,35 @@ class Routes
             // if there are more elements in the url request than the 
             return false;
         }
-        Err([
-            "generic els" => $genericElements,
-            "input els" => $inputElements,
-            "generic path" => $route->Path
-        ]);
+        // Err([
+        //     "generic els" => $genericElements,
+        //     "input els" => $inputElements,
+        //     "generic path" => $route->Path
+        // ]);
 
         foreach ($genericElements as $key => $genericElement) {
             $inputElement = isset($inputElements[$key]) ? $inputElements[$key] : null;
 
-            Err(["generic el" => $genericElement]);
+            // Err(["generic el" => $genericElement]);
             if (RouteVariable::TryParse($genericElement, $variable)) {
-                Err("--------------------TRY PARSE SUCCESSFUL--------------------");
+                // Err("--------------------TRY PARSE SUCCESSFUL--------------------");
                 if (!$variable->Nullable && empty($inputElement)) {
                     // if element cannot be null. yet no value is given
                     return false;
                 }
-                Err($variable);
+                // Err($variable);
                 switch ($variable->VariableName) {
                     case "controller":
                         $callingInfo->Controller = $inputElement;
-                        Err(["controller" => $inputElement]);
+                        // Err(["controller" => $inputElement]);
                     break;
                     case "action":
                         $callingInfo->Action = $inputElement;
-                        Err(["action" => $inputElement]);
+                        // Err(["action" => $inputElement]);
                     break;
                     default:
                         $callingInfo->Args[$variable->VariableName] = $inputElement;
-                        Err(["strict" => $inputElement]);
+                        // Err(["strict" => $inputElement]);
                     break;
                 }
             } else {
