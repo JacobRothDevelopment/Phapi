@@ -20,9 +20,9 @@ class HttpMethod
         }
     }
 
-    const Get = new HttpMethod("GET");
-    const Post = new HttpMethod("POST");
-    const Put = new HttpMethod("PUT");
-    const Patch = new HttpMethod("PATCH");
-    const Delete = new HttpMethod("DELETE");
+    public static $Get = new HttpMethod("GET");
+    public static $Post = new HttpMethod("POST");
+    public static $Put = new HttpMethod("PUT");
+    public static $Patch = new HttpMethod("PATCH");
+    public static $Delete = new HttpMethod("DELETE");
 }
