@@ -21,7 +21,9 @@ class Startup
             $this->Call();
         } catch (ApiException $e) {
             http_response_code($e->getCode());
-            $this->PrintOut($e->getApiMessage());
+            if ($e->hasMessage()) {
+                $this->PrintOut($e->getMessage());
+            }
         }
     }
 

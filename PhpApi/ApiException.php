@@ -17,8 +17,8 @@ class ApiException extends \Exception
         return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
     }
 
-    public function getApiMessage(): ?string
+    public function hasMessage(): ?string
     {
-        return $this->noMessage ? null : $this->getMessage();
+        return !$this->noMessage;
     }
 }
