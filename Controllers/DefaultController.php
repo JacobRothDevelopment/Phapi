@@ -65,10 +65,4 @@ class DefaultController extends PhpApi\Controller
         $this->HttpPatch();
         throw new PhpApi\ApiException(401);
     }
-
-    public function Throw(int $id)
-    {
-        $this->HttpPatch();
-        throw new PhpApi\ApiException($id);
-    }
 }
