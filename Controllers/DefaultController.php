@@ -46,6 +46,7 @@ class DefaultController extends PhpApi\Controller
     public function POST()
     {
         $this->HttpPost();
+        $this->SetResponseCode(201);
         return [
             "success" => true
         ];

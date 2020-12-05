@@ -41,4 +41,9 @@ abstract class Controller
             throw new ApiException(405, "Endpoint does not support " . $_SERVER['REQUEST_METHOD']);
         }
     }
+
+    protected function SetResponseCode(int $Code): void
+    {
+        http_response_code($Code);
+    }
 }
