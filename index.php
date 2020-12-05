@@ -17,12 +17,12 @@ $Routes = new PhpApi\Routes();
 $Routes->Add(new PhpApi\Route(
     "Update By Id",
     "/PhpApi/api/v1/{controller}/{action}/{id}",
-    PhpApi\HttpMethods::$Put
+    PhpApi\HttpMethod::Put
 ));
 $Routes->Add(new PhpApi\Route(
     "Get By Id",
     "/PhpApi/api/v2/{controller}/{id}",
-    PhpApi\HttpMethods::$Get
+    PhpApi\HttpMethod::Get
 ));
 $Routes->Add(new PhpApi\Route(
     "Double Id Get",

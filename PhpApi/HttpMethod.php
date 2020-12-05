@@ -4,28 +4,9 @@ namespace PhpApi;
 
 class HttpMethod
 {
-    public string $Value;
-
-    public function __construct(string $Method)
-    {
-        $this->Value = $Method;
-    }
-
-    public function Compare(string $InputMethod): bool
-    {
-        if (strtolower($this->Value) === strtolower($InputMethod)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-}
-
-class HttpMethods
-{
-    public static $Get = new HttpMethod("GET");
-    public static $Post = new HttpMethod("POST");
-    public static $Put = new HttpMethod("PUT");
-    public static $Patch = new HttpMethod("PATCH");
-    public static $Delete = new HttpMethod("DELETE");
+    public const Get = "GET";
+    public const Post = "POST";
+    public const Put = "PUT";
+    public const Patch = "PATCH";
+    public const Delete = "DELETE";
 }
