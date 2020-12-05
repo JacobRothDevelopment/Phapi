@@ -4,7 +4,7 @@ namespace PhpApi;
 
 class ApiException extends \Exception
 {
-    public function __construct(int $httpCode, string $message)
+    public function __construct(int $httpCode, ?string $message = null)
     {
         parent::__construct($message, $httpCode);
     }

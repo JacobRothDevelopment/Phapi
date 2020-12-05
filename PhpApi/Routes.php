@@ -33,7 +33,7 @@ class Routes
         $callingInfo = null;
         while ($index < count($this->Routes)) {
             $route = $this->Routes[$index];
-            $methodMatch = $route->HttpMethod !== null ? $route->HttpMethod === $inputMethod : true;
+            $methodMatch = $route->HttpMethod !== null ? $route->HttpMethod->Compare($inputMethod) : true;
             $routeFits = $this->TryFit($route, $inputElements, $callingInfo);
             if ($methodMatch && $routeFits) {
                 // end search
@@ -52,9 +52,10 @@ class Routes
     private function TryFit(Route $route, array $inputElements, ?CallingInformation &$callingInfoOut): bool
     {
         $callingInfoOut = null;
-        $callingInfo = new CallingInformation();
+        $callingInfo = new CallingInformation($route->DefaultController, $route->DefaultAction);
+
         $genericPath = $route->Path;
-        $genericElements = explode("/",$genericPath);
+        $genericElements = explode("/", $genericPath);
         if (count($genericElements) < count($inputElements)) {
             // if there are more elements in the url request than the 
             return false;
@@ -71,13 +72,13 @@ class Routes
                 switch ($variable->VariableName) {
                     case "controller":
                         $callingInfo->Controller = $inputElement;
-                    break;
+                        break;
                     case "action":
                         $callingInfo->Action = $inputElement;
-                    break;
+                        break;
                     default:
                         $callingInfo->Args[$variable->VariableName] = $inputElement;
-                    break;
+                        break;
                 }
             } else {
                 // if generic element is not a variable, assume it is a part of the url path

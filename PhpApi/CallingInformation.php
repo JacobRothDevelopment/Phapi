@@ -11,10 +11,10 @@ class CallingInformation
     // value = value
     public ?array $Args;
 
-    public function __construct()
+    public function __construct(?string $DefaultController = null, ?string $DefaultAction = null)
     {
-        $this->Controller = null;
-        $this->Action = null;
+        $this->Controller = $DefaultController;
+        $this->Action = $DefaultAction;
         $this->Args = null;
     }
 }

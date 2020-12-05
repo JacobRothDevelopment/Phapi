@@ -1,4 +1,5 @@
 <?php
+
 require_once(__DIR__ . "/../PhpApi/Controller.php");
 require_once(__DIR__ . "/../Requests/IdRequest.php");
 
@@ -31,6 +32,7 @@ class DefaultController extends PhpApi\Controller
         ];
     }
 
+    // GET /Default/DoubleGet/1/2
     public function DoubleGet(int $id, ?int $idtwo)
     {
         $this->HttpGet();
@@ -39,7 +41,6 @@ class DefaultController extends PhpApi\Controller
             "idtwo" => $idtwo
         ];
     }
-
 
     // POST /Default
     public function POST()
@@ -50,9 +51,17 @@ class DefaultController extends PhpApi\Controller
         ];
     }
 
+    // GET /Default/Server
     public function Server()
     {
         $this->HttpGet();
         return $_SERVER;
+    }
+
+    // PATCH /Default/Throw401
+    public function Throw401()
+    {
+        $this->HttpPatch();
+        throw new PhpApi\ApiException(401);
     }
 }

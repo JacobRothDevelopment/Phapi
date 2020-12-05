@@ -1,8 +1,16 @@
 <?php
-foreach (glob(__DIR__ . '/PhpApi/*.php') as $file) { require_once($file); }
-foreach (glob(__DIR__ . '/Controllers/*.php') as $file) { require_once($file); }
 
-function ERR($o) { // TODO: REMOVE WHEN DONE TESTING
+use PhpApi\HttpMethod;
+
+foreach (glob(__DIR__ . '/PhpApi/*.php') as $file) {
+    require_once($file);
+}
+foreach (glob(__DIR__ . '/Controllers/*.php') as $file) {
+    require_once($file);
+}
+
+function ERR($o)
+{ // TODO: REMOVE WHEN DONE TESTING
     error_log(print_r($o, true));
 }
 
@@ -11,12 +19,12 @@ $Routes = new PhpApi\Routes();
 $Routes->Add(new PhpApi\Route(
     "Update By Id",
     "/PhpApi/api/v1/{controller}/{action}/{id}",
-    "PUT"
+    HttpMethod::Put
 ));
 $Routes->Add(new PhpApi\Route(
     "Get By Id",
     "/PhpApi/api/v2/{controller}/{id}",
-    "GET"
+    HttpMethod::Get
 ));
 $Routes->Add(new PhpApi\Route(
     "Double Id Get",
@@ -28,8 +36,13 @@ $Routes->Add(new PhpApi\Route(
     "/PhpApi/api/v1/{controller}/{action?}"
     // NOTE: this is how you'll call a method by http method
 ));
-
-$Options = new PhpApi\Options("application/json",true);
+$Routes->Add(new PhpApi\Route(
+    "Calling Methods with Special URLs",
+    "/PhpApi/{id}",
+    null,
+    "Special",
+    "DontKnowWhyYoudUseThisButHereItIs"
+));
 
 $Startup = new PhpApi\Startup($Routes);
 $Startup->Run();

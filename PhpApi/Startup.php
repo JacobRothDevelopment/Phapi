@@ -82,7 +82,7 @@ class Startup
     }
 
     /** @return mixed */
-    private function Cast(string $class, array $values) 
+    private function Cast(string $class, array $values)
     {
         $obj = new $class;
         foreach ($values as $key => $value) {
@@ -91,17 +91,5 @@ class Startup
             }
         }
         return $obj;
-    }
-}
-
-class Options // not currently being used
-{
-    public string $ReturnType;
-    public bool $AllowRest;
-
-    public function __construct(string $ReturnType = "application/json", bool $AllowRest = true)
-    {
-        $this->ReturnType = $ReturnType;
-        $this->AllowRest = $AllowRest;
     }
 }
