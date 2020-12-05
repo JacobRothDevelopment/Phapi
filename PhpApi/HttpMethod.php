@@ -19,7 +19,10 @@ class HttpMethod
             return false;
         }
     }
+}
 
+class HttpMethods
+{
     public static $Get = new HttpMethod("GET");
     public static $Post = new HttpMethod("POST");
     public static $Put = new HttpMethod("PUT");
