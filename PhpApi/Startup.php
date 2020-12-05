@@ -38,11 +38,9 @@ class Startup
         $controllerClass = $callingInfo->Controller . "Controller";
 
         // allows for http method as action
-        // only if action is not a class method
-        $actionToUse = $callingInfo->Action;
-        if (!method_exists($controllerClass, $callingInfo->Action)) {
-            $actionToUse = $_SERVER['REQUEST_METHOD'];
-        }
+        // only if action is not specified in url
+        $actionToUse = $callingInfo->Action === null ?  $_SERVER['REQUEST_METHOD'] : $callingInfo->Action;
+
         try {
             $reflectionMethod = new \ReflectionMethod($controllerClass, $actionToUse);
             $reflectionParams = $reflectionMethod->getParameters();
