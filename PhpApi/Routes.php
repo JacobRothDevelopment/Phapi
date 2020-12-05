@@ -2,8 +2,6 @@
 
 namespace PhpApi;
 
-use Error;
-
 class Routes
 {
     /** @var Route[] $Routes */
