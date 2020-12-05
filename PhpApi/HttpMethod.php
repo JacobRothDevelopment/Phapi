@@ -6,7 +6,7 @@ class HttpMethod
 {
     public string $Value;
 
-    private function __construct(string $Method)
+    protected function __construct(string $Method)
     {
         $this->Value = $Method;
     }
