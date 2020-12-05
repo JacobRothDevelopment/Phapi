@@ -1,7 +1,5 @@
 <?php
 
-use PhpApi\HttpMethod;
-
 foreach (glob(__DIR__ . '/PhpApi/*.php') as $file) {
     require_once($file);
 }
@@ -19,12 +17,12 @@ $Routes = new PhpApi\Routes();
 $Routes->Add(new PhpApi\Route(
     "Update By Id",
     "/PhpApi/api/v1/{controller}/{action}/{id}",
-    HttpMethod::Put
+    PhpApi\HttpMethods::$Put
 ));
 $Routes->Add(new PhpApi\Route(
     "Get By Id",
     "/PhpApi/api/v2/{controller}/{id}",
-    HttpMethod::Get
+    PhpApi\HttpMethods::$Get
 ));
 $Routes->Add(new PhpApi\Route(
     "Double Id Get",
