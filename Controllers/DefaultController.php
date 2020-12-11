@@ -21,7 +21,9 @@ class DefaultController extends PhpApi\Controller
     public function EchoId(IdRequest $req)
     {
         $this->HttpPost();
-        return $req;
+        return [
+            "id" => $req->id
+        ];
     }
 
     // GET /Default/1
@@ -35,12 +37,21 @@ class DefaultController extends PhpApi\Controller
     }
 
     // GET /Default/DoubleGet/1/2
-    public function DoubleGet(int $id, ?int $idtwo)
+    public function DoubleGet(int $id, ?bool $bool)
     {
         $this->HttpGet();
         return [
             "id" => $id,
-            "idtwo" => $idtwo
+            "bool" => $bool
+        ];
+    }
+
+    public function Update(int $id, string $name)
+    {
+        $this->HttpPut();
+        return [
+            "id from url" => $id,
+            "name from body" => $name
         ];
     }
 

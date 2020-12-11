@@ -15,28 +15,29 @@ use PhpApi\Startup;
 $Routes = new Routes();
 $Routes->Add(new Route(
     "Update By Id",
-    "/PhpApi/api/v1/{controller}/{action}/{id}",
+    "/api/v1/{controller}/{action}/{id}",
     HttpMethod::Put
+    // NOTE: ^ this specifies that this route is only for PUT actions
 ));
 $Routes->Add(new Route(
     "Get By Id",
-    "/PhpApi/api/v2/{controller}/{id}",
+    "/api/v2/{controller}/{id}",
     HttpMethod::Get
 ));
 $Routes->Add(new Route(
     "Double Id Get",
-    "/PhpApi/api/v1/{controller}/{action}/{id}/{idtwo?}",
-    HttpMethod::Get
+    "/api/v1/{controller}/{action}/{id}/{bool?}",
     // ^ NOTE: id is a required input, idtwo is optional
+    HttpMethod::Get
 ));
 $Routes->Add(new Route(
     "Default",
-    "/PhpApi/api/v1/{controller}/{action?}"
+    "/api/v1/{controller}/{action?}"
     // NOTE: this is how you'll call a method by http method
 ));
 $Routes->Add(new Route(
     "Calling Methods with Special URLs",
-    "/PhpApi/{id}",
+    "/{id}",
     null,
     "Special",
     "DontKnowWhyYoudUseThisButHereItIs"

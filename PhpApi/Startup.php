@@ -90,7 +90,11 @@ class Startup
         $obj = new $class;
         foreach ($values as $key => $value) {
             if (property_exists($class, $key)) {
-                $obj->$key = $value;
+                try {
+                    $obj->$key = $value;
+                } catch (\TypeError $e) {
+                    throw new ApiException(HttpCode::UnprocessableEntity, "Incorrect data type for key: " . $key);
+                }
             }
         }
         return $obj;

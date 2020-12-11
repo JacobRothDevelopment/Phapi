@@ -43,7 +43,7 @@ class Routes
         }
 
         if ($callingInfo === null) {
-            throw new ApiException(HttpCode::BadRequest, "Invalid Request");
+            throw new ApiException(HttpCode::NotFound, "Endpoint Does Not Exist");
         }
 
         return $callingInfo;
