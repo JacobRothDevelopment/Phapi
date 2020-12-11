@@ -59,6 +59,9 @@ class Startup
                         $value = $inputData[$reflectionParam->getName()];
                         array_push($parameters, $value);
                     } else {
+                        if ($inputData === null) {
+                            throw new ApiException(400, "Invalid Input Data");
+                        }
                         $object = $this->Cast($typeName, $inputData);
                         array_push($parameters, $object);
                     }
