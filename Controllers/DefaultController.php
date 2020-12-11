@@ -1,5 +1,7 @@
 <?php
 
+use PhpApi\HttpCode;
+
 require_once(__DIR__ . "/../PhpApi/Controller.php");
 require_once(__DIR__ . "/../Requests/IdRequest.php");
 
@@ -63,6 +65,6 @@ class DefaultController extends PhpApi\Controller
     public function Throw401()
     {
         $this->HttpPatch();
-        throw new PhpApi\ApiException(401);
+        throw new PhpApi\ApiException(HttpCode::Unauthorized);
     }
 }

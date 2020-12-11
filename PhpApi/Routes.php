@@ -24,7 +24,7 @@ class Routes
         $inputPath = parse_url($_SERVER["REQUEST_URI"])['path'];
         $inputElements = explode("/", $inputPath);
         if ($inputElements === false) {
-            throw new ApiException(400, "Invalid Url");
+            throw new ApiException(HttpCode::BadRequest, "Invalid Url");
         }
 
         $index = 0;
@@ -43,7 +43,7 @@ class Routes
         }
 
         if ($callingInfo === null) {
-            throw new ApiException(400, "Invalid Request");
+            throw new ApiException(HttpCode::BadRequest, "Invalid Request");
         }
 
         return $callingInfo;

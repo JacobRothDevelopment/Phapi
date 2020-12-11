@@ -60,7 +60,7 @@ class Startup
                         array_push($parameters, $value);
                     } else {
                         if ($inputData === null) {
-                            throw new ApiException(400, "Invalid Input Data");
+                            throw new ApiException(HttpCode::BadRequest, "Invalid Input Data");
                         }
                         $object = $this->Cast($typeName, $inputData);
                         array_push($parameters, $object);
@@ -73,7 +73,7 @@ class Startup
 
             $this->PrintOut($output);
         } catch (\ReflectionException $e) {
-            throw new ApiException(404, $DoesNotExistMessage);
+            throw new ApiException(HttpCode::NotFound, $DoesNotExistMessage);
         }
     }
 
