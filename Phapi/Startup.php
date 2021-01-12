@@ -32,7 +32,6 @@ class Startup
         // TODO? configure for xml data as input?
         $inputData = json_decode(file_get_contents("php://input"), TRUE);
 
-        $DoesNotExistMessage = "Endpoint Does Not Exist";
         $callingInfo = $this->Routes->Find();
 
         $controllerClass = $callingInfo->Controller . "Controller";
@@ -73,7 +72,7 @@ class Startup
 
             $this->PrintOut($output);
         } catch (\ReflectionException $e) {
-            throw new ApiException(HttpCode::NotFound, $DoesNotExistMessage);
+            throw new ApiException(HttpCode::NotFound);
         }
     }
 
