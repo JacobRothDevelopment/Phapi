@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpApi;
+namespace Phapi;
 
 // To be extended by all Controller classes
 abstract class Controller

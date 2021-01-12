@@ -1,16 +1,16 @@
 <?php
 
-foreach (glob(__DIR__ . '/PhpApi/*.php') as $file) {
+foreach (glob(__DIR__ . '/Phapi/*.php') as $file) {
     require_once($file);
 }
 foreach (glob(__DIR__ . '/Controllers/*.php') as $file) {
     require_once($file);
 }
 
-use PhpApi\Routes;
-use PhpApi\Route;
-use PhpApi\HttpMethod;
-use PhpApi\Startup;
+use Phapi\Routes;
+use Phapi\Route;
+use Phapi\HttpMethod;
+use Phapi\Startup;
 
 $Routes = new Routes();
 $Routes->Add(new Route(

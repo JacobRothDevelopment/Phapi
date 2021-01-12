@@ -1,6 +1,6 @@
 <?php
 
-class SpecialController extends PhpApi\Controller
+class SpecialController extends Phapi\Controller
 {
     public function DontKnowWhyYoudUseThisButHereItIs(int $id)
     {

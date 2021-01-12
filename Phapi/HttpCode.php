@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpApi;
+namespace Phapi;
 
 class HttpCode
 {

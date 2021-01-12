@@ -1,5 +1,5 @@
 <?php
-// From PhpApi
+// From Phapi
 
 // Script Variables //////////////////////////////////////
 if (!file_exists("./env.php")) {
@@ -105,7 +105,7 @@ foreach ($tableArray as $tableData) {
 	}
 	$DbClassFile = fopen("./DbClasses/" . $table . ".php", "w");
 	$classText = "<?php\n$autoCreateMessage\n
-require_once(__DIR__ . '/../PhpApi/CanFromArray.php');
+require_once(__DIR__ . '/../Phapi/CanFromArray.php');
 class " . $table . " extends CanFromArray 
 {\n";
 	foreach ($columnArray as $column) {
