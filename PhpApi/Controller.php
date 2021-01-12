@@ -7,35 +7,52 @@ abstract class Controller
 {
     protected function HttpGet(): void
     {
-        if (strtoupper($_SERVER['REQUEST_METHOD']) !== "GET") {
-            throw new ApiException(HttpCode::MethodNotAllowed, "Endpoint does not support " . $_SERVER['REQUEST_METHOD']);
-        }
+        $this->CompareHttpMethod(HttpMethod::Get);
+    }
+
+    protected function HttpHead(): void
+    {
+        $this->CompareHttpMethod(HttpMethod::Head);
     }
 
     protected function HttpPost(): void
     {
-        if (strtoupper($_SERVER['REQUEST_METHOD']) !== "POST") {
-            throw new ApiException(HttpCode::MethodNotAllowed, "Endpoint does not support " . $_SERVER['REQUEST_METHOD']);
-        }
+        $this->CompareHttpMethod(HttpMethod::Post);
     }
 
     protected function HttpPut(): void
     {
-        if (strtoupper($_SERVER['REQUEST_METHOD']) !== "PUT") {
-            throw new ApiException(HttpCode::MethodNotAllowed, "Endpoint does not support " . $_SERVER['REQUEST_METHOD']);
-        }
-    }
-
-    protected function HttpPatch(): void
-    {
-        if (strtoupper($_SERVER['REQUEST_METHOD']) !== "PATCH") {
-            throw new ApiException(HttpCode::MethodNotAllowed, "Endpoint does not support " . $_SERVER['REQUEST_METHOD']);
-        }
+        $this->CompareHttpMethod(HttpMethod::Put);
     }
 
     protected function HttpDelete(): void
     {
-        if (strtoupper($_SERVER['REQUEST_METHOD']) !== "DELETE") {
+        $this->CompareHttpMethod(HttpMethod::Delete);
+    }
+
+    protected function HttpConnect(): void
+    {
+        $this->CompareHttpMethod(HttpMethod::Connect);
+    }
+
+    protected function HttpOptions(): void
+    {
+        $this->CompareHttpMethod(HttpMethod::Options);
+    }
+
+    protected function HttpTrace(): void
+    {
+        $this->CompareHttpMethod(HttpMethod::Trace);
+    }
+
+    protected function HttpPatch(): void
+    {
+        $this->CompareHttpMethod(HttpMethod::Patch);
+    }
+
+    private function CompareHttpMethod($requiredMethod): void
+    {
+        if (strtoupper($_SERVER['REQUEST_METHOD']) !== $requiredMethod) {
             throw new ApiException(HttpCode::MethodNotAllowed, "Endpoint does not support " . $_SERVER['REQUEST_METHOD']);
         }
     }
