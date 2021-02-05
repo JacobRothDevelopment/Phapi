@@ -30,7 +30,7 @@ class Startup
     private function Call()
     {
         // TODO? configure for xml data as input?
-        $inputData = json_decode(file_get_contents("php://input"), TRUE);
+        $inputData = json_decode(file_get_contents("php://input"), false);
 
         $callingInfo = $this->Routes->Find();
 
@@ -55,7 +55,8 @@ class Startup
                     $typeName = $reflectionType->getName();
                     $nativeTypes = ["int", "string", "bool"];
                     if (in_array($typeName, $nativeTypes)) {
-                        $value = $inputData[$reflectionParam->getName()];
+                        $paramName = $reflectionParam->getName();
+                        $value = $inputData->$paramName;
                         array_push($parameters, $value);
                     } else {
                         if ($inputData === null) {
@@ -84,8 +85,12 @@ class Startup
     }
 
     /** @return mixed */
-    private function Cast(string $class, array $values)
+    private function Cast(string $class, object $values)
     {
+        if (strtolower($class) === "object") {
+            return (object)$values;
+        }
+
         $obj = new $class;
         foreach ($values as $key => $value) {
             if (property_exists($class, $key)) {
@@ -96,6 +101,7 @@ class Startup
                 }
             }
         }
+
         return $obj;
     }
 }

@@ -3,6 +3,7 @@
 use Phapi\HttpCode;
 
 require_once(__DIR__ . "/../Requests/IdRequest.php");
+require_once(__DIR__ . "/../Classes/Item.php");
 
 class DefaultController extends Phapi\Controller
 {
@@ -76,5 +77,17 @@ class DefaultController extends Phapi\Controller
     {
         $this->HttpPatch();
         throw new Phapi\ApiException(HttpCode::Unauthorized);
+    }
+
+    public function weirdObject(int $id, object $thing)
+    {
+        $thing->id = $id;
+
+        /** @var Item $item */
+        foreach($thing->items as $item) {
+            $item->name = $item->name . " - altered";
+        }
+
+        return($thing);
     }
 }
