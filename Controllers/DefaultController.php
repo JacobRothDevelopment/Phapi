@@ -7,6 +7,22 @@ require_once(__DIR__ . "/../Classes/Item.php");
 
 class DefaultController extends Phapi\Controller
 {
+    public function IdGet(int $id)
+    {
+        $this->HttpGet();
+        return [
+            "id" => $id
+        ];
+    }
+
+    public function IdPut(int $id)
+    {
+        $this->HttpPut();
+        return [
+            "id" => $id
+        ];
+    }
+
     // GET /Default/Values
     public function Values()
     {
@@ -37,12 +53,12 @@ class DefaultController extends Phapi\Controller
     }
 
     // GET /Default/DoubleGet/1/2
-    public function DoubleGet(int $id, ?bool $bool)
+    public function DoubleGet(int $id, string $string)
     {
         $this->HttpGet();
         return [
             "id" => $id,
-            "bool" => $bool
+            "bool" => $string
         ];
     }
 
