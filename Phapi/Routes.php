@@ -31,8 +31,8 @@ class Routes
         $callingInfo = null;
         while ($index < count($this->Routes)) {
             $route = $this->Routes[$index];
-            $methodMatch = $route->HttpMethod !== null
-                ? strtolower($route->HttpMethod) === strtolower($inputMethod)
+            $methodMatch = $route->HttpMethods !== null
+                ? in_array($inputMethod, $route->HttpMethods)
                 : true;
             $routeFits = $this->TryFit($route, $inputElements, $callingInfo);
             if ($methodMatch && $routeFits) {

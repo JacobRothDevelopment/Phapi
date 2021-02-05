@@ -16,19 +16,19 @@ $Routes = new Routes();
 $Routes->Add(new Route(
     "Update By Id",
     "/api/v1/{controller}/{action}/{id}",
-    HttpMethod::Put
+    [HttpMethod::Put, HttpMethod::Get]
     // NOTE: ^ this specifies that this route is only for PUT actions
 ));
 $Routes->Add(new Route(
     "Get By Id",
     "/api/v2/{controller}/{id}",
-    HttpMethod::Get
+    [HttpMethod::Get],
 ));
 $Routes->Add(new Route(
     "Double Id Get",
     "/api/v1/{controller}/{action}/{id}/{bool?}",
     // ^ NOTE: id is a required input, idtwo is optional
-    HttpMethod::Get
+    [HttpMethod::Get],
 ));
 $Routes->Add(new Route(
     "Default",
