@@ -29,11 +29,11 @@ class Startup
 
     private function Call()
     {
-        // TODO? configure for xml data as input?
-        $inputData = json_decode(file_get_contents("php://input"), false);
+        $inputData = $this->ReadIn();
+        $inputMethod = $_SERVER['REQUEST_METHOD'];
+        $inputPath = parse_url($_SERVER["REQUEST_URI"])['path'];
 
-        $callingInfo = $this->Routes->Find();
-
+        $callingInfo = $this->Routes->Find($inputMethod, $inputPath);
         $controllerClass = $callingInfo->Controller . "Controller";
 
         // allows for http method as action
@@ -50,6 +50,7 @@ class Startup
                     $value = $callingInfo->Args[$reflectionParam->getName()];
                     array_push($parameters, $value);
                 } else {
+                    // put a try catch around this for referencing missing paramters
                     /** @var \ReflectionNamedType $reflectionType */
                     $reflectionType = $reflectionParam->getType();
                     $typeName = $reflectionType->getName();
@@ -73,6 +74,7 @@ class Startup
 
             $this->PrintOut($output);
         } catch (\ReflectionException $e) {
+            error_log($e);
             throw new ApiException(HttpCode::NotFound);
         }
     }
@@ -80,8 +82,16 @@ class Startup
     /** @param mixed $o */
     private function PrintOut($o): void
     {
+        // TODO UPGADE: allow for alternate (even custom) methods of output
         header("Content-Type: application/json");
         print(json_encode($o));
+    }
+
+    private function ReadIn()
+    {
+        // TODO UPGRADE: allow for multiple (even custom) methods of inputs
+        $inputData = json_decode(file_get_contents("php://input"), false);
+        return $inputData;
     }
 
     /** @return mixed */

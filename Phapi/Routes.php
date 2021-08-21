@@ -7,9 +7,10 @@ class Routes
     /** @var Route[] $Routes */
     private array $Routes;
 
-    public function __construct()
+    /** @param Route[] $routes */
+    public function __construct(array $routes = [])
     {
-        $this->Routes = [];
+        $this->Routes = $routes;
         $this->CallingInfo = null;
     }
 
@@ -18,10 +19,8 @@ class Routes
         array_push($this->Routes, $Route);
     }
 
-    public function Find(): CallingInformation
+    public function Find(string $inputMethod, string $inputPath): CallingInformation
     {
-        $inputMethod = $_SERVER['REQUEST_METHOD'];
-        $inputPath = parse_url($_SERVER["REQUEST_URI"])['path'];
         $inputElements = explode("/", $inputPath);
         if ($inputElements === false) {
             throw new ApiException(HttpCode::BadRequest, "Invalid Url");
@@ -49,29 +48,28 @@ class Routes
         return $callingInfo;
     }
 
+    /** @param string[] $inputElements */
     private function TryFit(Route $route, array $inputElements, ?CallingInformation &$callingInfoOut): bool
     {
         $callingInfoOut = null;
-        $callingInfo = new CallingInformation($route->DefaultController, $route->DefaultAction);
-
+        $callingInfo = new CallingInformation($route->Namespace . "\\" . $route->DefaultController, $route->DefaultAction);
         $genericPath = $route->Path;
         $genericElements = explode("/", $genericPath);
         if (count($genericElements) < count($inputElements)) {
-            // if there are more elements in the url request than the 
+            // if there are more elements in the url request than the route url 
             return false;
         }
 
         foreach ($genericElements as $key => $genericElement) {
             $inputElement = isset($inputElements[$key]) ? $inputElements[$key] : null;
-
             if (RouteVariable::TryParse($genericElement, $variable)) {
-                if (!$variable->Nullable && empty($inputElement)) {
+                if (!$variable->Nullable && ($inputElement === null)) {
                     // if element cannot be null. yet no value is given
                     return false;
                 }
                 switch ($variable->VariableName) {
                     case "controller":
-                        $callingInfo->Controller = $inputElement;
+                        $callingInfo->Controller = $route->Namespace . "\\" . $inputElement;
                         break;
                     case "action":
                         $callingInfo->Action = $inputElement;

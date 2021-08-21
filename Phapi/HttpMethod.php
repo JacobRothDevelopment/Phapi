@@ -13,4 +13,16 @@ class HttpMethod
     public const Options = "OPTIONS";
     public const Trace = "TRACE";
     public const Patch = "PATCH";
+
+    public const All = [
+        HttpMethod::Get,
+        HttpMethod::Head,
+        HttpMethod::Post,
+        HttpMethod::Put,
+        HttpMethod::Delete,
+        HttpMethod::Connect,
+        HttpMethod::Options,
+        HttpMethod::Trace,
+        HttpMethod::Patch,
+    ];
 }

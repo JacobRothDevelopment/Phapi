@@ -1,6 +1,8 @@
 <?php
 
-class SpecialController extends Phapi\Controller
+namespace V2;
+
+class SpecialController extends \Phapi\Controller
 {
     public function DontKnowWhyYoudUseThisButHereItIs(int $id)
     {

@@ -1,11 +1,12 @@
 <?php
 
+namespace Controllers;
+
 use Phapi\HttpCode;
+use \IdRequest;
+use \Item;
 
-require_once(__DIR__ . "/../Requests/IdRequest.php");
-require_once(__DIR__ . "/../Classes/Item.php");
-
-class DefaultController extends Phapi\Controller
+class DefaultController extends \Phapi\Controller
 {
     public function IdGet(int $id)
     {
@@ -53,12 +54,12 @@ class DefaultController extends Phapi\Controller
     }
 
     // GET /Default/DoubleGet/1/2
-    public function DoubleGet(int $id, string $string)
+    public function DoubleGet(int $id, ?string $string)
     {
         $this->HttpGet();
         return [
             "id" => $id,
-            "bool" => $string
+            "string" => $string
         ];
     }
 
@@ -85,14 +86,18 @@ class DefaultController extends Phapi\Controller
     public function Server()
     {
         $this->HttpGet();
-        return $_SERVER;
+        return (object) [
+            "SERVER" => $_SERVER,
+            "parse_url['path']" => parse_url($_SERVER["REQUEST_URI"])['path'],
+            "explode(parse_url['path'])" => explode("/", parse_url($_SERVER["REQUEST_URI"])['path']),
+        ];
     }
 
     // PATCH /Default/Throw401
     public function Throw401()
     {
         $this->HttpPatch();
-        throw new Phapi\ApiException(HttpCode::Unauthorized);
+        throw new \Phapi\ApiException(HttpCode::Unauthorized);
     }
 
     public function weirdObject(int $id, object $thing)
@@ -100,10 +105,10 @@ class DefaultController extends Phapi\Controller
         $thing->id = $id;
 
         /** @var Item $item */
-        foreach($thing->items as $item) {
+        foreach ($thing->items as $item) {
             $item->name = $item->name . " - altered";
         }
 
-        return($thing);
+        return ($thing);
     }
 }
