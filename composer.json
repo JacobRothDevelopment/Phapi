@@ -1,0 +1,16 @@
+{
+    "name": "phapi/phapi",
+    "description": "A PHP-based Rest API Framework",
+    "require": {
+        "php": "^7.4|^8.0"
+    },
+    "type": "library",
+    "keywords": [ "api", "rest", "framework" ],
+    "homepage": "https://github.com/JacobRothDevelopment/Phapi",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Phapi\\": "/src/"
+        }
+    }
+}
