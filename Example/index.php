@@ -23,8 +23,8 @@ $Routes->Add(new Route(
 ));
 $Routes->Add(new Route(
     "Double Id Get",
-    "/api/v1/{controller}/{action}/{id}/{string}",
-    // ^ NOTE: id is a required input, idtwo is optional
+    "/api/v1/{controller}/{action}/{id}/{?string}",
+    // ^ NOTE: id is a required input, string is optional
     [HttpMethod::Get],
     "Controllers"
 ));

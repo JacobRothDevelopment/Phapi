@@ -22,8 +22,17 @@ class Routes
     public function Find(string $inputMethod, string $inputPath): CallingInformation
     {
         $inputElements = explode("/", $inputPath);
+
         if ($inputElements === false) {
             throw new ApiException(HttpCode::BadRequest, "Invalid Url");
+        }
+
+        // if input is ever empty, assume the paramter value is null
+        // start at index 1 because index 0 is extpcted to be ""
+        for ($i = 1; $i < count($inputElements); $i++) {
+            if ($inputElements[$i] === "") {
+                $inputElements[$i] = null;
+            }
         }
 
         $index = 0;

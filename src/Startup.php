@@ -54,7 +54,7 @@ class Startup
                     /** @var \ReflectionNamedType $reflectionType */
                     $reflectionType = $reflectionParam->getType();
                     $typeName = $reflectionType->getName();
-                    $nativeTypes = ["int", "string", "bool"];
+                    $nativeTypes = ["int", "string", "bool", "mixed"];
                     if (in_array($typeName, $nativeTypes)) {
                         $paramName = $reflectionParam->getName();
                         $value = $inputData->$paramName;
