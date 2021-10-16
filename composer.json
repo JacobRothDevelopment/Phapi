@@ -1,5 +1,5 @@
 {
-    "name": "phapi/phapi",
+    "name": "jacob-roth/phapi",
     "description": "A PHP-based Rest API Framework",
     "require": {
         "php": "^7.4|^8.0"
