@@ -19,7 +19,7 @@ class HttpCode
     public const AlreadyReported = 208;
     public const IMUsed = 226;
 
-    public const MutlipleChoices = 300;
+    public const MultipleChoices = 300;
     public const MovedPermanently = 301;
     public const Found = 302;
     public const SeeOther = 303;
@@ -40,11 +40,11 @@ class HttpCode
     public const Conflict = 409;
     public const Gone = 410;
     public const LengthRequired = 411;
-    public const PrconditionFailed = 412;
+    public const PreconditionFailed = 412;
     public const RequestEntityTooLarge = 413;
     public const RequestUrlTooLarge = 414;
     public const UnsupportedMediaType = 416;
-    public const RangeNotSatifiable = 416;
+    public const RangeNotSatisfiable = 416;
     public const ExpectationFailed = 417;
     public const ImATeapot = 418;
     public const AuthTimeout = 419;
@@ -62,7 +62,7 @@ class HttpCode
     public const NotImplemented = 501;
     public const BadGateway = 502;
     public const ServiceUnavailable = 503;
-    public const GatewayTiemout = 504;
+    public const GatewayTimeout = 504;
     public const HttpVersionNotSupported = 505;
     public const VariantAlsoNegotiates = 506;
     public const InsufficientStorage = 507;
