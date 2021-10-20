@@ -39,17 +39,17 @@ Written for PHP 7.4 and 8.0^
 
 ## Adding API Endpoint
 
-- Create a new PHP class ending with "Controller" that extends Phapi\Controller (or use an existing one)
+- Create a new PHP class ending with "Controller" that extends Phapi\Controller (or use an existing Controller class)
 
   ```php
   class DefaultController extends \Phapi\Controller
   ```
 
-- Add a `public` method. This method will act as the endpoint
+- Add a `public` method to act as the new endpoint
 
-  - This method can be called anything you want, or it can be named after an HTTP method in all caps. This will allow you to call the endpoint without having to specify the method in the url (see `Add a Route` for more info on this)
+  - This method can be called anything you want, or it can be named as an HTTP request method (this will allow you to call the endpoint without having to specify the method in the url)
 
-  - Inside this method, you'll want to specify the HTTP request method (get, put, etc.). That way if an endpoint is being improperly called, the user will know
+  - Inside this method, you'll want to specify the HTTP request method (Get, Put, etc.). Although not strictly necessary, it is good practice.
 
     ```php
     // This endpoint can be called like
@@ -71,23 +71,23 @@ Written for PHP 7.4 and 8.0^
     }
     ```
 
-- Add a Route in index.php that fits your new endpoint (or use an existing one)
+- Add a Route in index.php that fits your new endpoint (note that a previously existing Route may already work, so adding a new Route may not be necessary)
 
-  - A route will match an request url and method to an endpoint.
+  - A Route maps a request to an endpoint
 
-  - When adding a route, you can specify variables in the url like `{id}`. Two of these variables cannot be used: `controller` and `action` which specify the class and method to use. These variables can also be made optional by prepending them with a `"?"`, like `{?id}`
+  - When adding a Route, you can specify variables in the url like `{id}`. Two of these variables cannot be used: `controller` and `action` which specify the Controller class and method to use. Route variables may be made optional by prepending them with a `"?"`, like `{?id}`
 
-  - You can specify which HTTP methods are allowed in the route
+  - You can specify which HTTP request methods are allowed in the route
 
   - In mapping the route to an endpoint, you can specify the namespace, class, and even the method
 
-  - This is an overview of how to use Routes. See more under `Class Specifications`
+  - This is an overview of how to use Routes. For more details, see the `Class Specifications > Route` section
 
 ## Class Specifications
 
 - Controller
 
-  - Specify which HTTP Method is allowed. Use only one for each endpoint. Here are some examples:
+  - Specify which HTTP request method is allowed. Use only one for each endpoint. Here are some examples:
 
     ```php
     $this->HttpGet();
@@ -101,7 +101,7 @@ Written for PHP 7.4 and 8.0^
     $this->HttpTrace();
     ```
 
-  - Change which HTTP Code is returned
+  - Change which HTTP response code is returned
 
     ```php
     $this->SetResponseCode(HttpCode::Created);
@@ -109,7 +109,7 @@ Written for PHP 7.4 and 8.0^
 
 - Route
 
-  - You will only ever need to initialize these objects in your index.php, but because this object can be complex, I'm going to go into the construct parameters one at a time
+  - You will only ever need to initialize Route objects in your index.php. Because this object can be complex, I'm going to go into the construct parameters one at a time
 
   - The construct method is as follows:
 
@@ -124,9 +124,9 @@ Written for PHP 7.4 and 8.0^
     )
     ```
 
-    - `Name` is not used except for the user to keep track of what each route is used for. You can enter any string value here.
+    - `Name` is not used except by the user to keep track of how each Route is used. You can enter any string value here.
 
-    - `Path` is a pattern used to match the path in a url.
+    - `Path` is a pattern used to match the path in a request url.
 
       - For example, if your path was `/v1/{controller}/{action}` then each of the following would be true
 
@@ -142,9 +142,9 @@ Written for PHP 7.4 and 8.0^
 
         - `/v1/user/login/somethingelse`
 
-      - An important feature of the Path is variables. Path variables are used to pass data from the url to the function call.
+      - An important feature of the Path is variables. Path variables are used to pass data from the request url to the method call.
 
-        - Specifically, the string used to define the path variable need to be the same string used as the argument of the endpoint method
+        - Specifically, the string used to define the path variable needs to be the same string used as the argument of the endpoint method
 
         - For example, given the method
 
@@ -154,9 +154,9 @@ Written for PHP 7.4 and 8.0^
 
           a path must include `{id}` in order to call the endpoint properly. Such a path can look like this: `/api/v1/{controller}/{action}/{id}`
 
-        - As you might be able to tell, there are special variables in a path. Namely, `controller` and `action`. You may use these where and when you see fit for your application, however, naming a method argument `controller` will result in incorrect dat getting passed to your endpoint. I strongly discourage such a practice in a production environment
+        - As you might be able to tell, there are special path variables. Namely, `"controller"` and `"action"`. You may use these where and when you see fit for your application, however, naming a method argument `controller` will result in incorrect dat getting passed to your endpoint. I strongly discourage such a practice in a production environment
 
-        - You can also make path variables optional. Simply add a `"?"` in the path variable string, like `{?id}` and ensure that the method allows for a `null` value to be passed to that argument, like
+        - You can also make path variables optional. Simply add a `"?"` in the path variable string, like `{?id}` and ensure that the method allows for a `null` value to be passed to that argument. For example:
 
           ```php
           public function IdGet(?int $id)
@@ -164,15 +164,23 @@ Written for PHP 7.4 and 8.0^
 
           using optional variables allow you to perform a mapping where `/v1/default/idGet/123` and `/v1/default/idGet/` both map to `DefaultController->IdGet($id)` where the latter simply passes `null` as `$id`
 
-    - `HttpMethods` allows you to limit the Http Method used in the Route.
+    - `HttpMethods` allows you to limit the Http request methods used in the Route.
 
-      - Eg. if you want to limit the Route `/v1/{controller}/{action}` to only GET and POST, you'd use `[HttpMethod::Get, HttpMethod::Post]`
+      - If you want to limit the Route `/v1/{controller}/{action}` to only GET and POST requests, you'd use
 
-      - The default value, `null`, behaves the same as `HttpMethod::All`.
+        ```php
+        [HttpMethod::Get, HttpMethod::Post]
+        ```
 
-    - `Namespace` allows you to map inputs to Controllers only in a certain namespace. If your Controller classes are not in a namespace, this is to be left blank
+      - The default value, `null`, behaves the same as
 
-      - For example, with the following route
+        ```php
+        HttpMethod::All
+        ```
+
+    - `Namespace` allows you to map requests to Controllers that are in the given namespace. If your Controller classes are not in a namespace, this is to be left blank
+
+      - For example, given the following Route
 
         ```php
         $Routes->Add(new Route(
@@ -183,11 +191,11 @@ Written for PHP 7.4 and 8.0^
         ));
         ```
 
-        an input of `/v1/user/login` would route to `V1\UserController->login()`
+        an input of `/v1/user/login` would map to `V1\UserController->login()`
 
-    - `DefaultController` and `DefaultAction` are useful when the Controller class and endpoint method are optional or otherwise not specified by the url input.
+    - `DefaultController` and `DefaultAction` are useful when the Controller class and endpoint method are optional or otherwise not specified by the request url.
 
-      - For example, with the following route
+      - For example, the following Route
 
         ```php
         $Routes->Add(new Route(
@@ -206,9 +214,17 @@ Written for PHP 7.4 and 8.0^
 
   - Can be thrown where you encounter an error and Phapi will handle the exception
 
+  - You can specify an Http response code and a message string if you want to return something to the caller
+
+  - Example:
+
+    ```php
+    throw new ApiException(HttpCode::BadRequest, "Invalid Input Data");
+    ```
+
 - HttpMethod
 
-  - Collections of constants for HTTP Request Codes
+  - Collections of constants representing HTTP Request Methods
 
     ```php
     HttpMethod::Get
@@ -225,7 +241,7 @@ Written for PHP 7.4 and 8.0^
 
 - HttpCode
 
-  - Collection of constants for HTTP
+  - Collection of constants representing HTTP Response Codes
 
   - I won't list them all here because there are a lot, but here are some examples:
 
@@ -241,5 +257,26 @@ There are two ways to pass data from a request to an endpoint: by request data, 
 
 - Data Passed in Request Data
 
+  - If you want to pass request data to an endpoint, simply add an argument with any name and any PHP object type. This could be `"object"` or some custom object.
+
+  - Example:
+
+    ```php
+    public function EchoId(RequestObject $req)
+    {
+      $this->HttpPost();
+      return [
+        "id" => $req->id
+      ];
+    }
+    ```
+
 - Data Passed in Request Url
+
   - Data passed in the url is handled by path variables. For details on these, see `Class Specifications > Route > Path`
+
+## Version Limitations With Intent to Upgrade
+
+- Currently Input and Output data can only be JSON. In a future version I intend to add a way to override the I/O format based on the "Content-Type" and "Accept" HTTP headers
+
+- Speaking of HTTP headers, there's a lot of room for enhancements here. Currently, Phapi uses exactly zero of these headers when handling the data. Headers like Content-type, Accept, Accept-Encoding, Authorization, Cookie, and all things CORS could have a use in Phapi. There are not plans to add anything except Content-type and Accept right now, but the consideration is there
