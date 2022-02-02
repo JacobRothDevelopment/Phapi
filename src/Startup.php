@@ -22,7 +22,7 @@ class Startup
         } catch (ApiException $e) {
             http_response_code($e->getCode());
             if ($e->hasMessage()) {
-                $this->PrintOut($e->getMessage());
+                $this->PrintOut($e->getErrorMessage());
             }
         }
     }
