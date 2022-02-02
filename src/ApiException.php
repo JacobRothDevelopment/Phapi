@@ -6,8 +6,7 @@ class ApiException extends \Exception
 {
     protected bool $noMessage;
     protected string $messageClass;
-    protected mixed $errorMessage;
-
+    protected $errorMessage;
 
     public function __construct(int $httpCode, $message = null)
     {
@@ -32,7 +31,7 @@ class ApiException extends \Exception
         return $this->messageClass;
     }
 
-    public function getErrorMessage(): mixed
+    public function getErrorMessage()
     {
         return $this->errorMessage;
     }
