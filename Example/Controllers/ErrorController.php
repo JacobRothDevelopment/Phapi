@@ -26,4 +26,10 @@ class ErrorController extends \Phapi\Controller
         $this->HttpGet();
         throw new ApiException(HttpCode::BadRequest, "string");
     }
+
+    public function NoMessage()
+    {
+        $this->HttpGet();
+        throw new ApiException(HttpCode::Unauthorized);
+    }
 }
