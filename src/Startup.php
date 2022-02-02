@@ -50,7 +50,7 @@ class Startup
                     $value = $callingInfo->Args[$reflectionParam->getName()];
                     array_push($parameters, $value);
                 } else {
-                    // put a try catch around this for referencing missing paramters
+                    // put a try catch around this for referencing missing parameters
                     /** @var \ReflectionNamedType $reflectionType */
                     $reflectionType = $reflectionParam->getType();
                     $typeName = $reflectionType->getName();
@@ -82,7 +82,7 @@ class Startup
     /** @param mixed $o */
     private function PrintOut($o): void
     {
-        // TODO UPGADE: allow for alternate (even custom) methods of output
+        // TODO UPGRADE: allow for alternate (even custom) methods of output
         header("Content-Type: application/json");
         print(json_encode($o));
     }
