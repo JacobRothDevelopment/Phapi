@@ -4,7 +4,6 @@ namespace Controllers;
 
 use Phapi\HttpCode;
 use \IdRequest;
-use \Item;
 
 class DefaultController extends \Phapi\Controller
 {
@@ -104,11 +103,16 @@ class DefaultController extends \Phapi\Controller
     {
         $thing->id = $id;
 
-        /** @var Item $item */
         foreach ($thing->items as $item) {
             $item->name = $item->name . " - altered";
         }
 
         return ($thing);
+    }
+
+    public function postArray(array $a)
+    {
+        $this->HttpPost();
+        return $a;
     }
 }

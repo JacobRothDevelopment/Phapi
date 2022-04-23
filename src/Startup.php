@@ -15,6 +15,7 @@ class Startup
         }
     }
 
+    /** Kicks off the process of getting and calling the endpoint */
     public function Run(): void
     {
         try {
@@ -27,6 +28,13 @@ class Startup
         }
     }
 
+    /** Responsible for 
+     * 1) Matching request uri to controller and method
+     * 2) Gather input data, in request data and url
+     * 3) Executing given method using given data
+     * 4) If no match is found, throw 404
+     * 5) If data is ill-formatted or unexpected, throw 400
+     */
     private function Call()
     {
         $inputData = $this->ReadIn();
@@ -45,6 +53,7 @@ class Startup
             $reflectionParams = $reflectionMethod->getParameters();
 
             $parameters = [];
+            // loop through endpoint args
             foreach ($reflectionParams as $reflectionParam) {
                 if (isset($callingInfo->Args[$reflectionParam->getName()])) {
                     $value = $callingInfo->Args[$reflectionParam->getName()];
@@ -58,9 +67,17 @@ class Startup
                     if (in_array($typeName, $nativeTypes)) {
                         $paramName = $reflectionParam->getName();
                         $value = $inputData->$paramName;
+                        if (!$reflectionParam->allowsNull() && $value === null) {
+                            throw new ApiException(HttpCode::BadRequest, "Invalid Input Data");
+                        }
                         array_push($parameters, $value);
+                    } elseif ($typeName === "array") {
+                        if (!$reflectionParam->allowsNull() && $inputData === null) {
+                            throw new ApiException(HttpCode::BadRequest, "Invalid Input Data");
+                        }
+                        array_push($parameters, $inputData);
                     } else {
-                        if ($inputData === null) {
+                        if (!$reflectionParam->allowsNull() && $inputData === null) {
                             throw new ApiException(HttpCode::BadRequest, "Invalid Input Data");
                         }
                         $object = $this->Cast($typeName, $inputData);
@@ -79,22 +96,26 @@ class Startup
         }
     }
 
-    /** @param mixed $o */
+    // TODO UPGRADE: allow for alternate (even custom) methods of output
+    /** prints what the endpoint returns but formatted as json */
     private function PrintOut($o): void
     {
-        // TODO UPGRADE: allow for alternate (even custom) methods of output
         header("Content-Type: application/json");
         print(json_encode($o));
     }
 
+    // TODO UPGRADE: allow for multiple (even custom) methods of inputs
+    /** reads int request data */
     private function ReadIn()
     {
-        // TODO UPGRADE: allow for multiple (even custom) methods of inputs
         $inputData = json_decode(file_get_contents("php://input"), false);
         return $inputData;
     }
 
     /** @return mixed */
+    /** Casts an input object to a class given by the endpoint's parameter;
+     * Allows for "object" type as well
+     */
     private function Cast(string $class, object $values)
     {
         if (strtolower($class) === "object") {
