@@ -14,11 +14,13 @@ class Routes
         $this->CallingInfo = null;
     }
 
+    /** Add a Route to the list */
     public function Add(Route $Route): void
     {
         array_push($this->Routes, $Route);
     }
 
+    /** Match Request's URI and HTTP Method to the existing Routes  */
     public function Find(string $inputMethod, string $inputPath): CallingInformation
     {
         $inputElements = explode("/", $inputPath);
@@ -27,8 +29,8 @@ class Routes
             throw new ApiException(HttpCode::BadRequest, "Invalid Url");
         }
 
-        // if input is ever empty, assume the paramter value is null
-        // start at index 1 because index 0 is extpcted to be ""
+        // if input is ever empty, assume the parameter value is null
+        // start at index 1 because index 0 is expected to be ""
         for ($i = 1; $i < count($inputElements); $i++) {
             if ($inputElements[$i] === "") {
                 $inputElements[$i] = null;
@@ -58,10 +60,17 @@ class Routes
     }
 
     /** @param string[] $inputElements */
-    private function TryFit(Route $route, array $inputElements, ?CallingInformation &$callingInfoOut): bool
-    {
+    /** Tests a route to see if it fits the request information */
+    private function TryFit(
+        Route $route,
+        array $inputElements,
+        ?CallingInformation &$callingInfoOut
+    ): bool {
         $callingInfoOut = null;
-        $callingInfo = new CallingInformation($route->Namespace . "\\" . $route->DefaultController, $route->DefaultAction);
+        $callingInfo = new CallingInformation(
+            $route->Namespace . "\\" . $route->DefaultController,
+            $route->DefaultAction
+        );
         $genericPath = $route->Path;
         $genericElements = explode("/", $genericPath);
         if (count($genericElements) < count($inputElements)) {
@@ -70,7 +79,9 @@ class Routes
         }
 
         foreach ($genericElements as $key => $genericElement) {
-            $inputElement = isset($inputElements[$key]) ? $inputElements[$key] : null;
+            $inputElement = isset($inputElements[$key])
+                ? $inputElements[$key]
+                : null;
             if (RouteVariable::TryParse($genericElement, $variable)) {
                 if (!$variable->Nullable && ($inputElement === null)) {
                     // if element cannot be null. yet no value is given
@@ -78,17 +89,20 @@ class Routes
                 }
                 switch ($variable->VariableName) {
                     case "controller":
-                        $callingInfo->Controller = $route->Namespace . "\\" . $inputElement;
+                        $callingInfo->Controller =
+                            $route->Namespace . "\\" . $inputElement;
                         break;
                     case "action":
                         $callingInfo->Action = $inputElement;
                         break;
                     default:
-                        $callingInfo->Args[$variable->VariableName] = $inputElement;
+                        $callingInfo->Args[$variable->VariableName]
+                            = $inputElement;
                         break;
                 }
             } else {
-                // if generic element is not a variable, assume it is a part of the url path
+                // if generic element is not a variable, 
+                //      assume it is a part of the url path
                 // e.g. generic path = /api/v1/{controller}/{action}
                 // "api" and "v1" must match exactly
                 if ($genericElement !== $inputElement) {

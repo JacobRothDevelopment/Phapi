@@ -75,7 +75,7 @@ Written for PHP 7.4 and 8.0^
 
   - A Route maps a request to an endpoint
 
-  - When adding a Route, you can specify variables in the url like `{id}`. Two of these variables cannot be used: `controller` and `action` which specify the Controller class and method to use. Route variables may be made optional by prepending them with a `"?"`, like `{?id}`
+  - When adding a Route, you can specify variables in the url like `{id}`. Two of these variables cannot be used: `controller` and `action` which specify the Controller class and method to use. Route variables may be made optional by pre-pending them with a `"?"`, like `{?id}`
 
   - You can specify which HTTP request methods are allowed in the route
 
@@ -93,12 +93,7 @@ Written for PHP 7.4 and 8.0^
     $this->HttpGet();
     $this->HttpPut();
     $this->HttpPost();
-    $this->HttpPatch();
-    $this->HttpHead();
     $this->HttpDelete();
-    $this->HttpConnect();
-    $this->HttpOptions();
-    $this->HttpTrace();
     ```
 
   - Change which HTTP response code is returned
@@ -130,7 +125,7 @@ Written for PHP 7.4 and 8.0^
 
       - For example, if your path was `/v1/{controller}/{action}` then each of the following would be true
 
-        - `/v1/default/getvalues` would map to the method `DefaultController->getvalues()`.
+        - `/v1/default/getValues` would map to the method `DefaultController->getValues()`.
 
         - `/v1/user/login` would map to `UserController->login()`
 
@@ -138,9 +133,9 @@ Written for PHP 7.4 and 8.0^
 
         - `/user/login`
 
-        - `/default/getvalues`
+        - `/default/getValues`
 
-        - `/v1/user/login/somethingelse`
+        - `/v1/user/login/somethingElse`
 
       - An important feature of the Path is variables. Path variables are used to pass data from the request url to the method call.
 
