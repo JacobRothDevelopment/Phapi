@@ -272,6 +272,12 @@ There are two ways to pass data from a request to an endpoint: by request data, 
 
 ## Version Limitations With Intent to Upgrade
 
+- Allow for spread operator (`...`) in endpoint arguments
+
+- Nested casting of std objects to custom classes
+
+  - probably requires a whole other project since this would be useful in all situations
+
 - Currently Input and Output data can only be JSON. In a future version I intend to add a way to override the I/O format based on the "Content-Type" and "Accept" HTTP headers
 
 - Speaking of HTTP headers, there's a lot of room for enhancements here. Currently, Phapi uses exactly zero of these headers when handling the data. Headers like Content-type, Accept, Accept-Encoding, Authorization, Cookie, and all things CORS could have a use in Phapi. There are not plans to add anything except Content-type and Accept right now, but the consideration is there
