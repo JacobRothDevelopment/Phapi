@@ -17,13 +17,13 @@ Written for PHP 7.4 and 8.0^
 - index.php
 
   ```php
-  $Routes = new Phapi\Routes();
-  $Routes->Add(new Phapi\Route(
+  $Routes = new \Phapi\Routes();
+  $Routes->Add(new \Phapi\Route(
     "Default",
     "/api/v1/{controller}/{action}"
   ));
 
-  $Startup = new Phapi\Startup($Routes);
+  $Startup = new \Phapi\Startup($Routes);
   $Startup->Run();
   ```
 
@@ -99,7 +99,7 @@ Written for PHP 7.4 and 8.0^
   - Change which HTTP response code is returned
 
     ```php
-    $this->SetResponseCode(HttpCode::Created);
+    $this->SetResponseCode(\Phapi\HttpCode::Created);
     ```
 
 - Route
@@ -164,13 +164,13 @@ Written for PHP 7.4 and 8.0^
       - If you want to limit the Route `/v1/{controller}/{action}` to only GET and POST requests, you'd use
 
         ```php
-        [HttpMethod::Get, HttpMethod::Post]
+        [\Phapi\HttpMethod::Get, \Phapi\HttpMethod::Post]
         ```
 
       - The default value, `null`, behaves the same as
 
         ```php
-        HttpMethod::All
+        \Phapi\HttpMethod::All
         ```
 
     - `Namespace` allows you to map requests to Controllers that are in the given namespace. If your Controller classes are not in a namespace, this is to be left blank
@@ -178,10 +178,10 @@ Written for PHP 7.4 and 8.0^
       - For example, given the following Route
 
         ```php
-        $Routes->Add(new Route(
+        $Routes->Add(new \Phapi\Route(
           "Default",
           "/api/v1/{controller}/{action}",
-          HttpMethod::All,
+          \Phapi\HttpMethod::All,
           "V1"
         ));
         ```
@@ -193,7 +193,7 @@ Written for PHP 7.4 and 8.0^
       - For example, the following Route
 
         ```php
-        $Routes->Add(new Route(
+        $Routes->Add(new \Phapi\Route(
           "Calling Methods with Special URLs",
           "/{id}",
           null,
@@ -214,7 +214,7 @@ Written for PHP 7.4 and 8.0^
   - Example:
 
     ```php
-    throw new ApiException(HttpCode::BadRequest, "Invalid Input Data");
+    throw new \Phapi\ApiException(\Phapi\HttpCode::BadRequest, "Invalid Input Data");
     ```
 
 - HttpMethod
@@ -222,16 +222,16 @@ Written for PHP 7.4 and 8.0^
   - Collections of constants representing HTTP Request Methods
 
     ```php
-    HttpMethod::Get
-    HttpMethod::Head
-    HttpMethod::Post
-    HttpMethod::Put
-    HttpMethod::Delete
-    HttpMethod::Connect
-    HttpMethod::Options
-    HttpMethod::Trace
-    HttpMethod::Patch
-    HttpMethod::All
+    \Phapi\HttpMethod::Get
+    \Phapi\HttpMethod::Head
+    \Phapi\HttpMethod::Post
+    \Phapi\HttpMethod::Put
+    \Phapi\HttpMethod::Delete
+    \Phapi\HttpMethod::Connect
+    \Phapi\HttpMethod::Options
+    \Phapi\HttpMethod::Trace
+    \Phapi\HttpMethod::Patch
+    \Phapi\HttpMethod::All
     ```
 
 - HttpCode
@@ -241,9 +241,9 @@ Written for PHP 7.4 and 8.0^
   - I won't list them all here because there are a lot, but here are some examples:
 
     ```php
-    HttpCode::Ok          // 200
-    HttpCode::Created     // 201
-    HttpCode::NotFound    // 404
+    \Phapi\HttpCode::Ok          // 200
+    \Phapi\HttpCode::Created     // 201
+    \Phapi\HttpCode::NotFound    // 404
     ```
 
 ## Passing Data to Endpoints
