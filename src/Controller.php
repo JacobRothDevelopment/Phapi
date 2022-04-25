@@ -63,7 +63,10 @@ abstract class Controller
     private function CompareHttpMethod($requiredMethod): void
     {
         if (strtoupper($_SERVER['REQUEST_METHOD']) !== $requiredMethod) {
-            throw new ApiException(HttpCode::MethodNotAllowed, "Endpoint does not support " . $_SERVER['REQUEST_METHOD']);
+            throw new ApiException(
+                HttpCode::MethodNotAllowed,
+                "Endpoint does not support " . $_SERVER['REQUEST_METHOD']
+            );
         }
     }
 

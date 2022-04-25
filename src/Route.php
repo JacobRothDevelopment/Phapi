@@ -4,12 +4,20 @@ namespace Phapi;
 
 class Route
 {
+    /** A name given to a path; 
+     * Makes it easy to delineate between Routes while programming them; 
+     * Holds no functionality */
     public string $Name;
+    /** The URL path, including parameters */
     public string $Path;
-    /** @var string[]|null $HttpMethods */
+    /** Defines the allowable HTTP method usable by the Route
+     * @var string[]|null $HttpMethods */
     public ?array $HttpMethods;
+    /** Allows for the separation of similar controllers through namespaces */
     public string $Namespace;
+    /** If a controller is not otherwise defined, this will be used instead */
     public ?string $DefaultController;
+    /** If an action is not otherwise defined, this will be used instead */
     public ?string $DefaultAction;
 
     /** @param string[]|null $HttpMethods */

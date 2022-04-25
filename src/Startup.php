@@ -46,19 +46,27 @@ class Startup
 
         // allows for http method as action
         // only if action is not specified in url
-        $actionToUse = $callingInfo->Action === null ?  $_SERVER['REQUEST_METHOD'] : $callingInfo->Action;
+        $actionToUse =
+            $callingInfo->Action === null
+            ?  $_SERVER['REQUEST_METHOD']
+            : $callingInfo->Action;
 
         try {
-            $reflectionMethod = new \ReflectionMethod($controllerClass, $actionToUse);
+            $reflectionMethod = new \ReflectionMethod(
+                $controllerClass,
+                $actionToUse
+            );
             $reflectionParams = $reflectionMethod->getParameters();
 
             $parameters = [];
             // loop through endpoint args
             foreach ($reflectionParams as $reflectionParam) {
+                // if argument is in URL, get value from Calling Info
                 if (isset($callingInfo->Args[$reflectionParam->getName()])) {
                     $value = $callingInfo->Args[$reflectionParam->getName()];
                     array_push($parameters, $value);
                 } else {
+                    // If argument is not in URL, assume it is in the body data
                     // put a try catch around this for referencing missing parameters
                     /** @var \ReflectionNamedType $reflectionType */
                     $reflectionType = $reflectionParam->getType();
@@ -68,17 +76,26 @@ class Startup
                         $paramName = $reflectionParam->getName();
                         $value = $inputData->$paramName;
                         if (!$reflectionParam->allowsNull() && $value === null) {
-                            throw new ApiException(HttpCode::BadRequest, "Invalid Input Data");
+                            throw new ApiException(
+                                HttpCode::BadRequest,
+                                "Invalid Input Data"
+                            );
                         }
                         array_push($parameters, $value);
                     } elseif ($typeName === "array") {
                         if (!$reflectionParam->allowsNull() && $inputData === null) {
-                            throw new ApiException(HttpCode::BadRequest, "Invalid Input Data");
+                            throw new ApiException(
+                                HttpCode::BadRequest,
+                                "Invalid Input Data"
+                            );
                         }
                         array_push($parameters, $inputData);
                     } else {
                         if (!$reflectionParam->allowsNull() && $inputData === null) {
-                            throw new ApiException(HttpCode::BadRequest, "Invalid Input Data");
+                            throw new ApiException(
+                                HttpCode::BadRequest,
+                                "Invalid Input Data"
+                            );
                         }
                         $object = $this->Cast($typeName, $inputData);
                         array_push($parameters, $object);
@@ -114,8 +131,7 @@ class Startup
 
     /** @return mixed */
     /** Casts an input object to a class given by the endpoint's parameter;
-     * Allows for "object" type as well
-     */
+     * Allows for "object" type as well */
     private function Cast(string $class, object $values)
     {
         if (strtolower($class) === "object") {
@@ -128,7 +144,10 @@ class Startup
                 try {
                     $obj->$key = $value;
                 } catch (\TypeError $e) {
-                    throw new ApiException(HttpCode::UnprocessableEntity, "Incorrect data type for key: " . $key);
+                    throw new ApiException(
+                        HttpCode::UnprocessableEntity,
+                        "Incorrect data type for key: " . $key
+                    );
                 }
             }
         }

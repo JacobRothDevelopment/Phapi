@@ -4,7 +4,8 @@ namespace Phapi;
 
 class Routes
 {
-    /** @var Route[] $Routes */
+    /** The List of Routes
+     * @var Route[] $Routes */
     private array $Routes;
 
     /** @param Route[] $routes */
@@ -59,8 +60,10 @@ class Routes
         return $callingInfo;
     }
 
-    /** @param string[] $inputElements */
-    /** Tests a route to see if it fits the request information */
+    /** Tests a route to see if it fits the request information
+     * @param \Phapi\Route $route 
+     * @param string[] $inputElements
+     * @param null|\Phapi\CallingInformation &$callingInfoOut */
     private function TryFit(
         Route $route,
         array $inputElements,
