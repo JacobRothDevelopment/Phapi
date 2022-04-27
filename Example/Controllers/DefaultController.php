@@ -115,4 +115,9 @@ class DefaultController extends \Phapi\Controller
         $this->HttpPost();
         return $a;
     }
+    public function postNestedClass(?\MasterItem $mi)
+    {
+        $this->HttpPost();
+        return $mi;
+    }
 }

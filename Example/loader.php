@@ -11,6 +11,8 @@ require_once __DIR__ . "/../src/Startup.php";
 require_once __DIR__ . "/../src/Controller.php";
 
 require_once __DIR__ . "/Classes/Item.php";
+require_once __DIR__ . "/Classes/Item2.php";
+require_once __DIR__ . "/Classes/MasterItem.php";
 require_once __DIR__ . "/Controllers/DefaultController.php";
 require_once __DIR__ . "/Controllers/SpecialController.php";
 require_once __DIR__ . "/Controllers/ErrorController.php";
