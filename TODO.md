@@ -1,0 +1,5 @@
+- allow for nullable class args in endpoints
+  - Uncaught TypeError: Argument 2 passed to Phapi\\Startup::Cast() must be an object, null given
+- Allow for spread operator (`...`) in endpoint arguments
+- Nested casting of std objects to custom classes
+  - probably requires a whole other project since this would be useful in all situations
