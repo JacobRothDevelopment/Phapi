@@ -97,7 +97,8 @@ class Startup
                                 "Invalid Input Data"
                             );
                         }
-                        $object = $this->Cast($typeName, $inputData);
+                        // $object = $this->Cast($typeName, $inputData); // using php-cast 
+                        $object = \PhpCast\Cast::cast($typeName, $inputData);
                         array_push($parameters, $object);
                     }
                 }
@@ -127,31 +128,5 @@ class Startup
     {
         $inputData = json_decode(file_get_contents("php://input"), false);
         return $inputData;
-    }
-
-    /** @return mixed */
-    /** Casts an input object to a class given by the endpoint's parameter;
-     * Allows for "object" type as well */
-    private function Cast(string $class, object $values)
-    {
-        if (strtolower($class) === "object") {
-            return (object)$values;
-        }
-
-        $obj = new $class;
-        foreach ($values as $key => $value) {
-            if (property_exists($class, $key)) {
-                try {
-                    $obj->$key = $value;
-                } catch (\TypeError $e) {
-                    throw new ApiException(
-                        HttpCode::UnprocessableEntity,
-                        "Incorrect data type for key: " . $key
-                    );
-                }
-            }
-        }
-
-        return $obj;
     }
 }

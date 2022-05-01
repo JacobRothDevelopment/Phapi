@@ -2,10 +2,15 @@
     "name": "jacob-roth/phapi",
     "description": "A PHP-based Rest API Framework",
     "require": {
-        "php": "^7.4|^8.0"
+        "php": "^7.4|^8.0",
+        "php-cast/php-cast": "^1.0"
     },
     "type": "library",
-    "keywords": [ "api", "rest", "framework" ],
+    "keywords": [
+        "api",
+        "rest",
+        "framework"
+    ],
     "homepage": "https://github.com/JacobRothDevelopment/Phapi",
     "license": "MIT",
     "autoload": {
