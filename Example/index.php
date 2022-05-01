@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . "/loader.php";
-require_once __DIR__ . "../vendor/autoload.php";
+require_once __DIR__ . "/../vendor/autoload.php";
 
 ini_set("display_errors", "0"); // should probably set this in the php.ini but i'm too lazy
 
