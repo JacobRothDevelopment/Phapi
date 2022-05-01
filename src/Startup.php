@@ -5,14 +5,28 @@ namespace Phapi;
 class Startup
 {
     private Routes $Routes;
+    public $ReadCallback;
+    public $ReturnCallback;
 
-    public function __construct(Routes $Routes = null)
-    {
+    /** @param ?Routes $Routes Lists available Routes for API
+     *  @param ?callable $ReadCallback Override reading in data from 
+     * HTTP request
+     *  @param ?callable $ReturnCallback Override returning data for 
+     * HTTP response
+     */
+    public function __construct(
+        ?Routes $Routes = null,
+        ?callable $ReadCallback = null,
+        ?callable $ReturnCallback = null
+    ) {
         if ($Routes === null) {
             $this->Routes = new Routes();
         } else {
             $this->Routes = $Routes;
         }
+
+        $this->ReadCallback = $ReadCallback;
+        $this->ReturnCallback = $ReturnCallback;
     }
 
     /** Kicks off the process of getting and calling the endpoint */
@@ -67,7 +81,6 @@ class Startup
                     array_push($parameters, $value);
                 } else {
                     // If argument is not in URL, assume it is in the body data
-                    // put a try catch around this for referencing missing parameters
                     /** @var \ReflectionNamedType $reflectionType */
                     $reflectionType = $reflectionParam->getType();
                     $typeName = $reflectionType->getName();
@@ -83,7 +96,10 @@ class Startup
                         }
                         array_push($parameters, $value);
                     } elseif ($typeName === "array") {
-                        if (!$reflectionParam->allowsNull() && $inputData === null) {
+                        if (
+                            !$reflectionParam->allowsNull()
+                            && $inputData === null
+                        ) {
                             throw new ApiException(
                                 HttpCode::BadRequest,
                                 "Invalid Input Data"
@@ -91,19 +107,26 @@ class Startup
                         }
                         array_push($parameters, $inputData);
                     } else {
-                        error_log('$reflectionParam->allowsNull()' . $reflectionParam->allowsNull());
-                        error_log('$inputData' . $inputData);
-                        if (!$reflectionParam->allowsNull() && $inputData === null) {
+                        if (
+                            !$reflectionParam->allowsNull()
+                            && $inputData === null
+                        ) {
                             throw new ApiException(
                                 HttpCode::BadRequest,
                                 "Invalid Input Data"
                             );
                         }
 
-                        if ($reflectionParam->allowsNull() && $inputData === null) {
+                        if (
+                            $reflectionParam->allowsNull()
+                            && $inputData === null
+                        ) {
                             array_push($parameters, null);
                         } else {
-                            $object = \PhpCast\Cast::cast($typeName, $inputData);
+                            $object = \PhpCast\Cast::cast(
+                                $typeName,
+                                $inputData
+                            );
                             array_push($parameters, $object);
                         }
                     }
@@ -120,19 +143,46 @@ class Startup
         }
     }
 
-    // TODO UPGRADE: allow for alternate (even custom) methods of output
-    /** prints what the endpoint returns but formatted as json */
+    /** Returns what the endpoint returns; Is overridden if ReturnCallback is not null 
+     * @param mixed $o The value returned from the endpoint
+     * @return void
+     */
     private function PrintOut($o): void
+    {
+        if ($this->ReturnCallback === null) {
+            $this->DefaultPrintOut($o);
+        } else {
+            ($this->ReturnCallback)($o);
+        }
+    }
+
+    /** Reads in request data. Is overridden if ReadCallback is not null 
+     * @return mixed Standard representation of input. Not parsed or typed 
+     * until used as method argument
+     */
+    private function ReadIn()
+    {
+        if ($this->ReadCallback === null) {
+            return $this->DefaultReadIn();
+        } else {
+            return ($this->ReadCallback)();
+        }
+    }
+
+    /** By default, treat the input as JSON
+     * @return string string stringified JSON
+     */
+    private function DefaultReadIn()
+    {
+        return json_decode(file_get_contents("php://input"), false);
+    }
+
+    /** By default, treat the output as JSON
+     * @param mixed $o whatever you want returned from endpoint
+     */
+    private function DefaultPrintOut($o)
     {
         header("Content-Type: application/json");
         print(json_encode($o));
-    }
-
-    // TODO UPGRADE: allow for multiple (even custom) methods of inputs
-    /** reads int request data */
-    private function ReadIn()
-    {
-        $inputData = json_decode(file_get_contents("php://input"), false);
-        return $inputData;
     }
 }
