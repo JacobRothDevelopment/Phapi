@@ -91,15 +91,21 @@ class Startup
                         }
                         array_push($parameters, $inputData);
                     } else {
+                        error_log('$reflectionParam->allowsNull()' . $reflectionParam->allowsNull());
+                        error_log('$inputData' . $inputData);
                         if (!$reflectionParam->allowsNull() && $inputData === null) {
                             throw new ApiException(
                                 HttpCode::BadRequest,
                                 "Invalid Input Data"
                             );
                         }
-                        // $object = $this->Cast($typeName, $inputData); // using php-cast 
-                        $object = \PhpCast\Cast::cast($typeName, $inputData);
-                        array_push($parameters, $object);
+
+                        if ($reflectionParam->allowsNull() && $inputData === null) {
+                            array_push($parameters, null);
+                        } else {
+                            $object = \PhpCast\Cast::cast($typeName, $inputData);
+                            array_push($parameters, $object);
+                        }
                     }
                 }
             }

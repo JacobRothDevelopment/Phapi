@@ -110,7 +110,7 @@ class DefaultController extends \Phapi\Controller
         return ($thing);
     }
 
-    public function postArray(array $a)
+    public function postArray(?array $a)
     {
         $this->HttpPost();
         return $a;
