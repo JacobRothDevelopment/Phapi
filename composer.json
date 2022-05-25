@@ -3,7 +3,7 @@
     "description": "A PHP-based Rest API Framework",
     "require": {
         "php": "^7.4|^8.0",
-        "php-cast/php-cast": "^1.0"
+        "php-cast/php-cast": "^2.0"
     },
     "type": "library",
     "keywords": [

@@ -125,7 +125,8 @@ class Startup
                         } else {
                             $object = \PhpCast\Cast::cast(
                                 $typeName,
-                                $inputData
+                                $inputData,
+                                true
                             );
                             array_push($parameters, $object);
                         }
